@@ -1,12 +1,14 @@
 from typing import List
 
+from sqlalchemy.orm import selectinload
+
 from src.models.department import Department
 from src import db
 from src.models.employee import Employee
 
 
 def get_all_departments() -> List[Department]:
-    return db.session.query(Department).all()
+    return db.session.query(Department).options(selectinload(Department.employees)).all()
 
 
 def get_department_by_uuid(uuid: str) -> Department:
@@ -39,7 +41,7 @@ def delete_department(department: Department) -> None:
 
 
 def get_all_employees() -> List[Employee]:
-    return db.session.query(Employee).all()
+    return db.session.query(Employee).options(selectinload(Employee.department)).all()
 
 
 def get_employee_by_uuid(uuid: str) -> Employee:
