@@ -12,4 +12,4 @@ migrate = Migrate(app, db)
 
 from src.rest import routes
 from src.views import routes
-from .models import department
+from src.models import department, employee
