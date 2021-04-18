@@ -5,6 +5,13 @@
     <title>Epam Project - {{ title }}</title>
 </head>
 <body>
+<div>
+    Company:
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for( 'department' ) }}">Departments</a>
+    <a href="{{ url_for("employee") }}">Employees</a>
+</div>
+<hr>
 {% block content %}{% endblock %}
 
 </body>

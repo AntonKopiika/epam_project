@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for department in departments %}
+        {% include "_department.html" %}
+    {% endfor %}
+{% endblock %}

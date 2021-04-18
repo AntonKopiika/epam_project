@@ -1,0 +1,10 @@
+<table>
+    <tr valign="top">
+        <td>{{ employee.first_name }} {{ employee.last_name }} <br>
+            position: {{ employee.position }} <br>
+            salary: {{ employee.salary }} <br>
+            department: <a href="{{ url_for('department', uuid=employee.department.uuid) }}">{{ employee.department.name }}</a>
+        </td>
+    </tr>
+</table>
+<hr/>

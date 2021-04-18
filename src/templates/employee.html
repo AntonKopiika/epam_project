@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for employee in employees %}
+        {% include "_employee.html" %}
+    {% endfor %}
+{% endblock %}

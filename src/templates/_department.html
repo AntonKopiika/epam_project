@@ -1,0 +1,16 @@
+<table>
+    <tr valign="top">
+        <td>{{ department.name }} <br>
+            {% if department.employees %}
+                <ul>
+                    {% for employee in department.employees %}
+                        <li>
+                            <a href="{{ url_for('employee', uuid=employee.uuid) }}">{{ employee.first_name+" "+employee.last_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<hr/>
