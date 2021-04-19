@@ -1,6 +1,6 @@
 <table>
     <tr valign="top">
-        <td>{{ department.name }} <br>
+        <td><a href="{{ url_for('department', uuid=department.uuid) }}">{{ department.name }}</a><br>
             {% if department.employees %}
                 <ul>
                     {% for employee in department.employees %}
