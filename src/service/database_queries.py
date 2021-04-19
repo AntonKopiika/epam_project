@@ -56,7 +56,7 @@ def add_employee(employee: Employee):
 def update_employee(employee: Employee, uuid: str) -> None:
     db.session.query(Employee).filter_by(uuid=uuid).update(
         dict(first_name=employee.first_name, last_name=employee.last_name, birthday=employee.birthday,
-             position=employee.position, salary=employee.salary)
+             position=employee.position, salary=employee.salary, is_admin=employee.is_admin, email=employee.email)
     )
     db.session.commit()
 
@@ -67,6 +67,8 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
     birthday = updated_json.get("birthday")
     position = updated_json.get("position")
     salary = updated_json.get("salary")
+    is_admin = updated_json.get("is_admin")
+    email = updated_json.get("email")
 
     if first_name:
         employee.first_name = first_name
@@ -78,6 +80,10 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
         employee.position = position
     if salary:
         employee.salary = salary
+    if is_admin is not None:
+        employee.is_admin = is_admin
+    if email:
+        employee.email = email
 
     db.session.add(employee)
     db.session.commit()

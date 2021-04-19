@@ -9,19 +9,23 @@ class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(60), nullable=False)
     last_name = db.Column(db.String(60), nullable=False)
+    email = db.Column(db.String(60), nullable=False, unique=True)
     position = db.Column(db.String(60), nullable=False)
     salary = db.Column(db.Integer)
     birthday = db.Column(db.Date)
+    is_admin = db.Column(db.Boolean, default=False)
     department_id = db.Column(db.Integer, db.ForeignKey("departments.id"))
     uuid = db.Column(db.String(36), unique=True)
 
-    def __init__(self, first_name, last_name, position, salary, birthday, department=None):
+    def __init__(self, first_name, last_name, position, salary, birthday, email, is_admin=False, department=None):
         self.first_name = first_name
         self.last_name = last_name
         self.position = position
         self.salary = salary
         self.birthday = birthday
-        self.department = department if department is not None else ""
+        self.email = email
+        self.is_admin = is_admin
+        self.department = department if department is not None else None
         self.uuid = str(uuid.uuid4())
 
     def __repr__(self):
