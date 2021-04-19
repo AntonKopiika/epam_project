@@ -3,6 +3,7 @@ import requests
 from src import app
 from flask import render_template, flash, redirect
 from src.forms.login import LoginForm
+from src.forms.register import RegisterForm
 
 
 @app.route("/")
@@ -15,9 +16,18 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f"Login request for {form.email}")
+        flash(f"Login request for {form.email.data}")
         return redirect("index")
     return render_template("login.html", form=form, title="Sign in")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        flash(f"Register request for {form.firstname.data} {form.lastname.data} {form.birthday.data}")
+        return redirect("index")
+    return render_template("register.html", form=form, title="Register")
 
 
 @app.route("/department")
