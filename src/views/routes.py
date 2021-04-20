@@ -9,6 +9,7 @@ import src.service.database_queries as service
 from src.rest.request import post_employee
 from src.utils.password_utils import random_password
 from src.utils.email_utils import send_password
+import src.rest.request as api_controller
 
 
 @app.route("/")
@@ -65,11 +66,9 @@ def register():
 @app.route("/department/<uuid>")
 def department(uuid=None):
     if not uuid:
-        request = requests.get("http://127.0.0.1:5000/api/department/")
-        departments = request.json()
+        departments = api_controller.get_all_departments()
     else:
-        request = requests.get(f"http://127.0.0.1:5000/api/department/{uuid}")
-        departments = [request.json()]
+        departments = [api_controller.get_department_by_uuid(uuid)]
     return render_template("department.html", title="Department", departments=departments)
 
 
@@ -77,11 +76,9 @@ def department(uuid=None):
 @app.route("/employee/<uuid>")
 def employee(uuid=None):
     if not uuid:
-        request = requests.get("http://127.0.0.1:5000/api/employee/")
-        employees = request.json()
+        employees = api_controller.get_all_employees()
     else:
-        request = requests.get(f"http://127.0.0.1:5000/api/employee/{uuid}")
-        employees = [request.json()]
+        employees = [api_controller.get_employee_by_uuid(uuid)]
     return render_template("employee.html", title="Employee", employees=employees)
 
 
