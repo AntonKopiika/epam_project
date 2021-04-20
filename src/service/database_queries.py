@@ -11,6 +11,10 @@ def get_all_departments() -> List[Department]:
     return db.session.query(Department).options(selectinload(Department.employees)).all()
 
 
+def get_department_by_id(id: str) -> Department:
+    return db.session.query(Department).filter_by(id=int(id)).first()
+
+
 def get_department_by_uuid(uuid: str) -> Department:
     return db.session.query(Department).filter_by(uuid=uuid).first()
 

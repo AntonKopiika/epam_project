@@ -54,8 +54,8 @@ def populate():
 
 
 if __name__ == '__main__':
-    # db.session.query(Department).delete()
-    # db.session.query(Employee).delete()
+    db.session.query(Department).delete()
+    db.session.query(Employee).delete()
     populate()
     print("employees are populated!")
 

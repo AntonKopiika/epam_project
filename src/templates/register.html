@@ -33,7 +33,7 @@
         </p>
         <p>
             {{ form.department.label }}<br>
-            {{ form.department }}
+            {{ form.department() }}
             {% for error in form.department.errors %}
                 <span style="color: red;">{{ error }}</span>
             {% endfor %}
@@ -51,6 +51,9 @@
             {% for error in form.salary.errors %}
                 <span style="color: red;">{{ error }}</span>
             {% endfor %}
+        </p>
+        <p>
+            {{ form.is_admin() }} {{ form.is_admin.label }}
         </p>
         <p>{{ form.submit() }}</p>
     </form>

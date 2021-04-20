@@ -18,7 +18,7 @@ class Employee(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean, default=False)
     department_id = db.Column(db.Integer, db.ForeignKey("departments.id"))
     uuid = db.Column(db.String(36), unique=True)
-    password = db.Column(db.String(60), nullable=False, default="test")
+    password = db.Column(db.String(120), nullable=False, default="test")
 
     def __init__(self, first_name, last_name, position, salary, birthday, email, password, is_admin=False,
                  department=None):
@@ -42,5 +42,5 @@ class Employee(db.Model, UserMixin):
 
 @login_manager.user_loader
 def load_user(employee_id):
-    return service.get_employee_by_id(employee_id)
+    return Employee.query.get(employee_id)
 
