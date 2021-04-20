@@ -16,19 +16,19 @@ def populate():
     department_8 = Department("IT department")
 
     employee1 = Employee(first_name="Anton", last_name="Kopiika", position="Junior Python Developer", salary=600,
-                         birthday=date(1999, 4, 2), is_admin=True, email="anton@mail.ru")
+                         birthday=date(1999, 4, 2), is_admin=True, email="anton@mail.ru", password="12345678")
     employee2 = Employee(first_name="Dmytro", last_name="Ivanov", position="Junior Python Developer", salary=600,
-                         birthday=date(2000, 1, 1), email="test1@mail.ru")
+                         birthday=date(2000, 1, 1), email="test1@mail.ru", password="test")
     employee3 = Employee(first_name="Ihor", last_name="Salo", position="Middle Python Developer", salary=1500,
-                         birthday=date(1996, 6, 6), email="test2@mail.ru")
+                         birthday=date(1996, 6, 6), email="test2@mail.ru", password="test")
     employee4 = Employee(first_name="Yurii", last_name="Morozov", position="Middle Python Developer", salary=2000,
-                         birthday=date(1997, 12, 20), email="test3@mail.ru")
+                         birthday=date(1997, 12, 20), email="test3@mail.ru", password="test")
     employee5 = Employee(first_name="Petro", last_name="Mogula", position="Senior Python Developer", salary=3000,
-                         birthday=date(1995, 9, 24), email="test4@mail.ru")
+                         birthday=date(1995, 9, 24), email="test4@mail.ru", password="test")
     employee6 = Employee(first_name="Mykola", last_name="Zerov", position="HR", salary=1000,
-                         birthday=date(1993, 8, 12), email="test5@mail.ru")
+                         birthday=date(1993, 8, 12), email="test5@mail.ru", password="test")
     employee7 = Employee(first_name="Serhiy", last_name="Burbas", position="Frontend Developer", salary=800,
-                         birthday=date(1998, 3, 7), email="test6@mail.ru")
+                         birthday=date(1998, 3, 7), email="test6@mail.ru", password="test")
 
     department_8.employees = [employee1, employee2, employee3, employee4, employee5, employee7]
     department_6.employees = [employee6]
@@ -54,8 +54,8 @@ def populate():
 
 
 if __name__ == '__main__':
-    db.session.query(Department).delete()
-    db.session.query(Employee).delete()
+    # db.session.query(Department).delete()
+    # db.session.query(Employee).delete()
     populate()
     print("employees are populated!")
 

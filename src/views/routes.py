@@ -1,9 +1,11 @@
 import requests
 
 from src import app
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, url_for
 from src.forms.login import LoginForm
 from src.forms.register import RegisterForm
+from flask_login import login_user, current_user, logout_user
+import src.service.database_queries as service
 
 
 @app.route("/")
@@ -14,11 +16,24 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
     form = LoginForm()
     if form.validate_on_submit():
+        employee = service.get_employee_by_email(form.email.data)
+        if employee is None or not employee.check_password(form.password.data):
+            flash("Invalid username or password")
+            return redirect(url_for("login"))
+        login_user(employee, remember=form.remember.data)
         flash(f"Login request for {form.email.data}")
-        return redirect("index")
+        return redirect(url_for("index"))
     return render_template("login.html", form=form, title="Sign in")
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
 
 
 @app.route("/register", methods=["GET", "POST"])

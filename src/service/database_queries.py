@@ -44,8 +44,16 @@ def get_all_employees() -> List[Employee]:
     return db.session.query(Employee).options(selectinload(Employee.department)).all()
 
 
+def get_employee_by_id(id: str) -> Employee:
+    return db.session.query(Employee).filter_by(uuid=int(id)).first()
+
+
 def get_employee_by_uuid(uuid: str) -> Employee:
     return db.session.query(Employee).filter_by(uuid=uuid).first()
+
+
+def get_employee_by_email(email: str) -> Employee:
+    return db.session.query(Employee).filter_by(email=email).first()
 
 
 def add_employee(employee: Employee):
@@ -56,7 +64,8 @@ def add_employee(employee: Employee):
 def update_employee(employee: Employee, uuid: str) -> None:
     db.session.query(Employee).filter_by(uuid=uuid).update(
         dict(first_name=employee.first_name, last_name=employee.last_name, birthday=employee.birthday,
-             position=employee.position, salary=employee.salary, is_admin=employee.is_admin, email=employee.email)
+             position=employee.position, salary=employee.salary, is_admin=employee.is_admin, email=employee.email,
+             password=employee.password)
     )
     db.session.commit()
 
@@ -69,6 +78,7 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
     salary = updated_json.get("salary")
     is_admin = updated_json.get("is_admin")
     email = updated_json.get("email")
+    password = updated_json.get("password")
 
     if first_name:
         employee.first_name = first_name
@@ -84,6 +94,8 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
         employee.is_admin = is_admin
     if email:
         employee.email = email
+    if password:
+        employee.password = password
 
     db.session.add(employee)
     db.session.commit()
