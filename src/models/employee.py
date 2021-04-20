@@ -42,6 +42,5 @@ class Employee(db.Model, UserMixin):
 
 @login_manager.user_loader
 def load_user(employee_id):
-    employee = Employee.query.get(employee_id)
-    print(employee)
-    return employee
+    return service.get_employee_by_id(employee_id)
+

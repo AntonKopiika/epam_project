@@ -39,8 +39,9 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
+    form.department.choices = [(dep.id, dep.name) for dep in service.get_all_departments()]
     if form.validate_on_submit():
-        flash(f"Register request for {form.firstname.data} {form.lastname.data} {form.birthday.data}")
+        flash(f"Register request for {form.firstname.data} {form.lastname.data} {form.department.data}")
         return redirect("index")
     return render_template("register.html", form=form, title="Register")
 

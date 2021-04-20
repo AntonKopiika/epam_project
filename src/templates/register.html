@@ -33,7 +33,7 @@
         </p>
         <p>
             {{ form.department.label }}<br>
-            {{ form.department(size=32) }}
+            {{ form.department }}
             {% for error in form.department.errors %}
                 <span style="color: red;">{{ error }}</span>
             {% endfor %}

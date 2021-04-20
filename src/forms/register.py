@@ -1,7 +1,7 @@
 from datetime import date
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, DateField, IntegerField
+from wtforms import StringField, SubmitField, DateField, IntegerField, SelectField
 from wtforms.validators import Email, DataRequired, ValidationError
 
 
@@ -10,7 +10,7 @@ class RegisterForm(FlaskForm):
     lastname = StringField("Last name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     birthday = DateField("Birthday (like 2000-01-01)", format='%Y-%m-%d', validators=[DataRequired()])
-    department = StringField("Department", validators=[DataRequired()])
+    department = SelectField("Department", choices=[])
     position = StringField("Position", validators=[DataRequired()])
     salary = IntegerField("Salary", validators=[DataRequired()])
     submit = SubmitField("Register")
