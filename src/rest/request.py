@@ -25,6 +25,25 @@ def get_department_by_uuid(uuid):
     return department
 
 
+def post_department(name):
+    json = {"name": name}
+    x = requests.post("http://127.0.0.1:5000/api/department/", json=json)
+
+
+def put_department(uuid, name):
+    json = {"name": name}
+    x = requests.put(f"http://127.0.0.1:5000/api/department/{uuid}", json=json)
+
+
+def patch_department(uuid, name):
+    json = {"name": name}
+    x = requests.patch(f"http://127.0.0.1:5000/api/department/{uuid}", json=json)
+
+
+def delete_department(uuid):
+    x = requests.delete(f"http://127.0.0.1:5000/api/department/{uuid}")
+
+
 def get_all_employees():
     request = requests.get("http://127.0.0.1:5000/api/employee/")
     employees = request.json()
@@ -35,3 +54,5 @@ def get_employee_by_uuid(uuid):
     request = requests.get(f"http://127.0.0.1:5000/api/employee/{uuid}")
     employee = request.json()
     return employee
+
+#post_department("test")
