@@ -1,9 +1,8 @@
 from datetime import date
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, DateField, IntegerField, SelectField, BooleanField
 from wtforms.validators import Email, DataRequired, ValidationError
-from src.rest.request import get_all_employees
+from src.rest.api_controllers import EmployeeApiController
 
 
 class RegisterForm(FlaskForm):
@@ -26,7 +25,7 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Wrong date")
 
     def validate_email(self, email):
-        employees = get_all_employees()
+        employees = EmployeeApiController.get_all_employees()
         emails = [employee["email"] for employee in employees]
         if email.data in emails:
             raise ValidationError("This email is already exists")

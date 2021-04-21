@@ -5,7 +5,11 @@
             salary: {{ employee.salary }} <br>
             birthday: {{ employee.birthday }} <br>
             email: {{ employee.email }} <br>
-            department: <a href="{{ url_for('department', uuid=employee.department.uuid) }}">{{ employee.department.name }}</a>
+            department: <a
+                    href="{{ url_for('department', uuid=employee.department.uuid) }}">{{ employee.department.name }}</a><br>
+            {% if current_user.uuid==employee.uuid or current_user.is_admin==True %}
+                <a href="{{ url_for('employee', uuid=employee.uuid) }}">Edit profile</a>
+            {% endif %}
         </td>
     </tr>
 </table>

@@ -1,15 +1,14 @@
 import requests
 
 from src import app
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from src.forms.login import LoginForm
 from src.forms.register import RegisterForm
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 import src.service.database_queries as service
-from src.rest.request import post_employee
+from src.rest.api_controllers import EmployeeApiController, DepartmentApiController
 from src.utils.password_utils import random_password
 from src.utils.email_utils import send_password
-import src.rest.request as api_controller
 
 
 @app.route("/")
@@ -35,12 +34,14 @@ def login():
 
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("index"))
 
 
 @app.route("/register", methods=["GET", "POST"])
+@login_required
 def register():
     form = RegisterForm()
     form.department.choices = [(dep.id, dep.name) for dep in service.get_all_departments()]
@@ -54,8 +55,9 @@ def register():
         password = random_password()
         email = form.email.data
         is_admin = form.is_admin.data
-        post_employee(first_name=firstname, last_name=lastname, salary=salary, position=position, is_admin=is_admin,
-                      email=email, password=password, department=department, birthday=birthday)
+        EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary, position=position,
+                                            is_admin=is_admin,
+                                            email=email, password=password, department=department, birthday=birthday)
         send_password(email, password)
         flash(f"Register request for {form.firstname.data} {form.lastname.data} {form.department.data}")
         return redirect("index")
@@ -66,19 +68,20 @@ def register():
 @app.route("/department/<uuid>")
 def department(uuid=None):
     if not uuid:
-        departments = api_controller.get_all_departments()
+        departments = DepartmentApiController.get_all_departments()
     else:
-        departments = [api_controller.get_department_by_uuid(uuid)]
+        departments = [DepartmentApiController.get_department_by_uuid(uuid)]
     return render_template("department.html", title="Department", departments=departments)
 
 
 @app.route("/employee")
 @app.route("/employee/<uuid>")
+@login_required
 def employee(uuid=None):
     if not uuid:
-        employees = api_controller.get_all_employees()
+        employees = EmployeeApiController.get_all_employees()
     else:
-        employees = [api_controller.get_employee_by_uuid(uuid)]
+        employees = [EmployeeApiController.get_employee_by_uuid(uuid)]
     return render_template("employee.html", title="Employee", employees=employees)
 
 
