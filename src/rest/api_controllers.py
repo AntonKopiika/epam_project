@@ -1,5 +1,7 @@
 import requests
 
+from src.schemas.employee import EmployeeSchema
+
 
 class DepartmentApiController:
     @staticmethod
@@ -35,6 +37,8 @@ class DepartmentApiController:
 
 
 class EmployeeApiController:
+    employee_schema = EmployeeSchema()
+
     @staticmethod
     def get_all_employees():
         request = requests.get("http://127.0.0.1:5000/api/employee/")

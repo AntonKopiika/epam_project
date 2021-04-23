@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash
 from src.models.department import Department
 from src import db
 from src.models.employee import Employee
+from src.schemas.department import DepartmentSchema
 
 
 def get_all_departments() -> List[Department]:
@@ -84,7 +85,7 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
     is_admin = updated_json.get("is_admin")
     email = updated_json.get("email")
     password = updated_json.get("password")
-
+    department = updated_json.get("department")
     if first_name:
         employee.first_name = first_name
     if last_name:
@@ -101,7 +102,9 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
         employee.email = email
     if password:
         employee.password = generate_password_hash(password)
-
+    if department:
+        department_schema = DepartmentSchema()
+        employee.department = department_schema.load(department, session=db.session)
     db.session.add(employee)
     db.session.commit()
 

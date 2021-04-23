@@ -3,6 +3,7 @@ import requests
 from src import app
 from flask import render_template, flash, redirect, url_for, request
 
+from src.forms.admin_edit_employee import AdminEditProfileForm
 from src.forms.edit_profile import EditProfileForm
 from src.forms.login import LoginForm
 from src.forms.register import RegisterForm
@@ -85,6 +86,29 @@ def employee(uuid=None):
     else:
         employees = [EmployeeApiController.get_employee_by_uuid(uuid)]
     return render_template("employee.html", title="Employee", employees=employees)
+
+
+@app.route("/edit_employee/<uuid>", methods=['GET', "POST"])
+@login_required
+def admin_edit_employee(uuid):
+    form = AdminEditProfileForm()
+    employee = EmployeeApiController.get_employee_by_uuid(uuid)
+    form.department.choices = [(dep.id, dep.name) for dep in service.get_all_departments()]
+    fullname = employee["last_name"] + " " + employee["first_name"]
+    if form.validate_on_submit():
+        department = service.get_department_by_id(form.department.data)
+        EmployeeApiController.patch_employee(department=department, position=form.position.data,
+                                             salary=form.salary.data, is_admin=form.is_admin.data, uuid=uuid)
+        flash("Changes have been saved.")
+        return redirect(url_for("admin_edit_employee", uuid=uuid))
+    elif request.method == "GET":
+        form.department.process_data(employee["department"]["id"])
+        form.position.data = employee["position"]
+        form.salary.data = employee["salary"]
+        form.is_admin.process_data(employee["is_admin"])
+
+
+    return render_template("admin_edit_employee.html", title="Edit Profile", form=form, fullname=fullname)
 
 
 @app.route("/edit_employee", methods=['GET', "POST"])

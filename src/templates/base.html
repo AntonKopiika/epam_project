@@ -13,6 +13,7 @@
     {% if not current_user.is_authenticated %}
         <a href="{{ url_for("login") }}">Login</a>
     {% else %}
+        <a href="{{ url_for('edit_employee') }}">Edit my profile</a>
         <a href="{{ url_for("logout") }}">Logout</a>
     {% endif %}
     {% if current_user.is_admin %}

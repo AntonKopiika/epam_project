@@ -14,7 +14,7 @@ class EditProfileForm(FlaskForm):
     birthday = DateField("Birthday (like 2000-01-01)", format='%Y-%m-%d', validators=[DataRequired()])
     password = PasswordField("Password")
     confirm_password = PasswordField("Confirm password")
-    submit = SubmitField("Register")
+    submit = SubmitField("Edit Profile")
 
     def validate_birthday(self, birthday):
         if birthday.data > date.today():
