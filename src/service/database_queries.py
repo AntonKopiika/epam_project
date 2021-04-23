@@ -1,7 +1,8 @@
+from datetime import datetime
 from typing import List
 
 from sqlalchemy.orm import selectinload
-
+from werkzeug.security import generate_password_hash
 from src.models.department import Department
 from src import db
 from src.models.employee import Employee
@@ -89,7 +90,7 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
     if last_name:
         employee.last_name = last_name
     if birthday:
-        employee.birthday = birthday
+        employee.birthday = datetime.strptime(birthday, '%Y-%m-%d')
     if position:
         employee.position = position
     if salary:
@@ -99,7 +100,7 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
     if email:
         employee.email = email
     if password:
-        employee.password = password
+        employee.password = generate_password_hash(password)
 
     db.session.add(employee)
     db.session.commit()

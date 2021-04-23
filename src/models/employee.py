@@ -1,7 +1,6 @@
 import uuid
 from flask_login import UserMixin
 from src import db, login_manager
-import src.service.database_queries as service
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
