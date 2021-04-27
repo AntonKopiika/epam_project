@@ -1,13 +1,14 @@
 import requests
+from flask_restful import abort
 
 
-def handle_errors(correct_response):
+def handle_errors(correct_response, error_code=404):
     def decorator(func):
         def wrapper(*args, **kwargs):
             request = func(*args, **kwargs)
             if request.status_code == correct_response:
                 return request.json()
-            return {}
+            return abort(error_code)
 
         return wrapper
 
@@ -16,19 +17,19 @@ def handle_errors(correct_response):
 
 class StatisticApiController:
     @staticmethod
-    @handle_errors(correct_response=200)
+    @handle_errors(correct_response=200, error_code=500)
     def get_department_statistics(uuid):
         return requests.get(f"http://127.0.0.1:5000/api/department/statistics/{uuid}")
 
 
 class DepartmentApiController:
     @staticmethod
-    @handle_errors(correct_response=200)
+    @handle_errors(correct_response=200, error_code=500)
     def get_all_departments():
         return requests.get("http://127.0.0.1:5000/api/department/")
 
     @staticmethod
-    @handle_errors(correct_response=200)
+    @handle_errors(correct_response=200, error_code=404)
     def get_department_by_uuid(uuid):
         return requests.get(f"http://127.0.0.1:5000/api/department/{uuid}")
 
@@ -55,19 +56,19 @@ class DepartmentApiController:
 class EmployeeApiController:
 
     @staticmethod
-    @handle_errors(correct_response=200)
+    @handle_errors(correct_response=200, error_code=500)
     def get_all_employees():
         return requests.get("http://127.0.0.1:5000/api/employee/")
 
     @staticmethod
-    @handle_errors(correct_response=200)
+    @handle_errors(correct_response=200, error_code=404)
     def get_employee_by_uuid(uuid):
         return requests.get(f"http://127.0.0.1:5000/api/employee/{uuid}")
 
     @staticmethod
     def post_employee(first_name, last_name, birthday, position, salary, is_admin, email, password, department):
         json = {'position': position, 'is_admin': is_admin, 'birthday': birthday.strftime("%Y-%m-%d"),
-                'department': {'id': department.id, 'name': department.name, 'uuid': department.uuid},
+                'department': {'id': department["id"], 'name': department["name"], 'uuid': department["uuid"]},
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
 
@@ -76,7 +77,7 @@ class EmployeeApiController:
     @staticmethod
     def put_employee(uuid, first_name, last_name, birthday, position, salary, is_admin, email, password, department):
         json = {'position': position, 'is_admin': is_admin, 'birthday': birthday.strftime("%Y-%m-%d"),
-                'department': {'id': department.id, 'name': department.name, 'uuid': department.uuid},
+                'department': {'id': department["id"], 'name': department["name"], 'uuid': department["uuid"]},
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
         x = requests.put(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json)
@@ -86,8 +87,8 @@ class EmployeeApiController:
                        email=None, password=None, department=None):
         json = {'position': position, 'is_admin': is_admin,
                 'birthday': birthday.strftime("%Y-%m-%d") if birthday is not None else None,
-                'department': {'id': department.id, 'name': department.name,
-                               'uuid': department.uuid} if department is not None else None,
+                'department': {'id': department["id"], 'name': department["name"],
+                               'uuid': department["uuid"]} if department is not None else None,
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
         x = requests.patch(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json)

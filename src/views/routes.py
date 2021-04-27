@@ -1,16 +1,30 @@
-from src import app
-from flask import render_template, flash, redirect, url_for, request, abort
+from functools import wraps
 
-from src.forms.admin_edit_employee import AdminEditProfileForm
-from src.forms.edit_employee import EditProfileForm
+from src import app
+from flask import render_template, flash, redirect, url_for, request
+
+from src.forms.employees.admin_edit_employee import AdminEditProfileForm
+from src.forms.employees.edit_employee import EditProfileForm
 from src.forms.login import LoginForm
-from src.forms.register import RegisterForm
-from src.forms.edit_department import EditDepartmentForm
+from src.forms.departments.register_department import RegisterDepartmentForm
+from src.forms.employees.register_employee import RegisterForm
+from src.forms.departments.edit_department import EditDepartmentForm
 from flask_login import login_user, current_user, logout_user, login_required
 import src.service.database_queries as service
 from src.rest.api_controllers import EmployeeApiController, DepartmentApiController, StatisticApiController
 from src.utils.password_utils import random_password
 from src.utils.email_utils import send_password
+
+
+def admins_only(func):
+    @wraps(func)
+    def admin_wrapper(*args, **kwargs):
+        if current_user.is_authenticated and current_user.is_admin:
+            return func(*args, **kwargs)
+        flash(f"Access denied")
+        return redirect(url_for("index"))
+
+    return admin_wrapper
 
 
 @app.route("/")
@@ -42,18 +56,19 @@ def logout():
     return redirect(url_for("index"))
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register_employee", methods=["GET", "POST"])
+@admins_only
 @login_required
 def register():
     form = RegisterForm()
-    form.department.choices = [(dep["id"], dep["name"]) for dep in DepartmentApiController.get_all_departments()]
+    form.department.choices = [(dep["uuid"], dep["name"]) for dep in DepartmentApiController.get_all_departments()]
     if form.validate_on_submit():
         firstname = form.firstname.data
         lastname = form.lastname.data
         salary = form.salary.data
         position = form.position.data
         birthday = form.birthday.data
-        department = service.get_department_by_id(form.department.data)
+        department = DepartmentApiController.get_department_by_uuid(form.department.data)
         password = random_password()
         email = form.email.data
         is_admin = form.is_admin.data
@@ -63,7 +78,20 @@ def register():
         send_password(email, password)
         flash(f"Register request for {form.firstname.data} {form.lastname.data} {form.department.data}")
         return redirect("index")
-    return render_template("register.html", form=form, title="Register")
+    return render_template("register_employee.html", form=form, title="Register Employee")
+
+
+@app.route("/register_department", methods=["GET", "POST"])
+@admins_only
+@login_required
+def register_department():
+    form = RegisterDepartmentForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        DepartmentApiController.post_department(name=name)
+        flash(f"Register request for {form.name.data}")
+        return redirect("index")
+    return render_template("register_department.html", form=form, title="Register Department")
 
 
 @app.route("/department")
@@ -73,15 +101,15 @@ def department(uuid=None):
     statistics = {"employees": 0}
     if not uuid:
         departments = DepartmentApiController.get_all_departments()
-        if not departments:
-            return abort(500)
+        # if not departments:
+        #     return abort(500)
     else:
         departments = [DepartmentApiController.get_department_by_uuid(uuid)]
-        if not departments[0]:
-            return abort(404)
+        # if not departments[0]:
+        #     return abort(404)
         statistics = StatisticApiController.get_department_statistics(uuid)
-        if not statistics:
-            return abort(500)
+        # if not statistics:
+        #     return abort(500)
     return render_template("department.html", title="Department", departments=departments, statistics=statistics)
 
 
@@ -91,30 +119,33 @@ def department(uuid=None):
 def employee(uuid=None):
     if not uuid:
         employees = EmployeeApiController.get_all_employees()
-        if not employees:
-            return abort(500)
+        # if not employees:
+        #     return abort(500)
     else:
         employees = [EmployeeApiController.get_employee_by_uuid(uuid)]
-        if not employees[0]:
-            return abort(404)
+        # if not employees[0]:
+        #     return abort(404)
     return render_template("employee.html", title="Employee", employees=employees)
 
 
 @app.route("/edit_employee/<uuid>", methods=['GET', "POST"])
+@admins_only
 @login_required
 def admin_edit_employee(uuid):
     form = AdminEditProfileForm()
     employee = EmployeeApiController.get_employee_by_uuid(uuid)
-    form.department.choices = [(dep.id, dep.name) for dep in service.get_all_departments()]
+    # if not employee:
+    #     return abort(404)
+    form.department.choices = [(dep["uuid"], dep["name"]) for dep in DepartmentApiController.get_all_departments()]
     fullname = employee["last_name"] + " " + employee["first_name"]
     if form.validate_on_submit():
-        department = service.get_department_by_id(form.department.data)
+        department = DepartmentApiController.get_department_by_uuid(form.department.data)
         EmployeeApiController.patch_employee(department=department, position=form.position.data,
                                              salary=form.salary.data, is_admin=form.is_admin.data, uuid=uuid)
         flash("Changes have been saved.")
         return redirect(url_for("admin_edit_employee", uuid=uuid))
     elif request.method == "GET":
-        form.department.process_data(employee["department"]["id"])
+        form.department.process_data(employee["department"]["uuid"])
         form.position.data = employee["position"]
         form.salary.data = employee["salary"]
         form.is_admin.process_data(employee["is_admin"])
@@ -140,6 +171,7 @@ def edit_employee():
 
 
 @app.route("/edit_department/<uuid>", methods=['GET', "POST"])
+@admins_only
 @login_required
 def edit_department(uuid):
     form = EditDepartmentForm(uuid)
@@ -154,18 +186,22 @@ def edit_department(uuid):
 
 
 @app.route("/delete_employee/<uuid>")
+@admins_only
 @login_required
 def delete_employee(uuid):
     if current_user.is_admin:
         EmployeeApiController.delete_employee(uuid)
+        flash(f"Employee deleted successfully")
     return redirect(url_for("employee"))
 
 
 @app.route("/delete_department/<uuid>")
+@admins_only
 @login_required
 def delete_department(uuid):
     if current_user.is_admin:
         DepartmentApiController.delete_department(uuid)
+        flash(f"Department deleted successfully")
     return redirect(url_for("department"))
 
 
