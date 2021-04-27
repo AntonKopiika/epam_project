@@ -10,14 +10,14 @@
     <a href="{{ url_for('index') }}">Home</a>
     <a href="{{ url_for( 'department' ) }}">Departments</a>
     <a href="{{ url_for("employee") }}">Employees</a>
+    {% if current_user.is_admin %}
+        <a href="{{ url_for("register") }}">New Employee</a>
+    {% endif %}
     {% if not current_user.is_authenticated %}
         <a href="{{ url_for("login") }}">Login</a>
     {% else %}
         <a href="{{ url_for('edit_employee') }}">Edit my profile</a>
         <a href="{{ url_for("logout") }}">Logout</a>
-    {% endif %}
-    {% if current_user.is_admin %}
-        <a href="{{ url_for("register") }}">New Employee</a>
     {% endif %}
 
 </div>

@@ -1,28 +1,36 @@
 import requests
 
-from src.schemas.employee import EmployeeSchema
+
+def handle_errors(correct_response):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            request = func(*args, **kwargs)
+            if request.status_code == correct_response:
+                return request.json()
+            return {}
+
+        return wrapper
+
+    return decorator
 
 
 class StatisticApiController:
     @staticmethod
+    @handle_errors(correct_response=200)
     def get_department_statistics(uuid):
-        request = requests.get(f"http://127.0.0.1:5000/api/department/statistics/{uuid}")
-        statistics = request.json()
-        return statistics
+        return requests.get(f"http://127.0.0.1:5000/api/department/statistics/{uuid}")
 
 
 class DepartmentApiController:
     @staticmethod
+    @handle_errors(correct_response=200)
     def get_all_departments():
-        request = requests.get("http://127.0.0.1:5000/api/department/")
-        departments = request.json()
-        return departments
+        return requests.get("http://127.0.0.1:5000/api/department/")
 
     @staticmethod
+    @handle_errors(correct_response=200)
     def get_department_by_uuid(uuid):
-        request = requests.get(f"http://127.0.0.1:5000/api/department/{uuid}")
-        department = request.json()
-        return department
+        return requests.get(f"http://127.0.0.1:5000/api/department/{uuid}")
 
     @staticmethod
     def post_department(name):
@@ -45,19 +53,16 @@ class DepartmentApiController:
 
 
 class EmployeeApiController:
-    employee_schema = EmployeeSchema()
 
     @staticmethod
+    @handle_errors(correct_response=200)
     def get_all_employees():
-        request = requests.get("http://127.0.0.1:5000/api/employee/")
-        employees = request.json()
-        return employees
+        return requests.get("http://127.0.0.1:5000/api/employee/")
 
     @staticmethod
+    @handle_errors(correct_response=200)
     def get_employee_by_uuid(uuid):
-        request = requests.get(f"http://127.0.0.1:5000/api/employee/{uuid}")
-        employee = request.json()
-        return employee
+        return requests.get(f"http://127.0.0.1:5000/api/employee/{uuid}")
 
     @staticmethod
     def post_employee(first_name, last_name, birthday, position, salary, is_admin, email, password, department):

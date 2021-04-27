@@ -1,5 +1,5 @@
 from src import app
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, abort
 
 from src.forms.admin_edit_employee import AdminEditProfileForm
 from src.forms.edit_employee import EditProfileForm
@@ -46,7 +46,7 @@ def logout():
 @login_required
 def register():
     form = RegisterForm()
-    form.department.choices = [(dep.id, dep.name) for dep in service.get_all_departments()]
+    form.department.choices = [(dep["id"], dep["name"]) for dep in DepartmentApiController.get_all_departments()]
     if form.validate_on_submit():
         firstname = form.firstname.data
         lastname = form.lastname.data
@@ -73,9 +73,15 @@ def department(uuid=None):
     statistics = {"employees": 0}
     if not uuid:
         departments = DepartmentApiController.get_all_departments()
+        if not departments:
+            return abort(500)
     else:
         departments = [DepartmentApiController.get_department_by_uuid(uuid)]
+        if not departments[0]:
+            return abort(404)
         statistics = StatisticApiController.get_department_statistics(uuid)
+        if not statistics:
+            return abort(500)
     return render_template("department.html", title="Department", departments=departments, statistics=statistics)
 
 
@@ -85,8 +91,12 @@ def department(uuid=None):
 def employee(uuid=None):
     if not uuid:
         employees = EmployeeApiController.get_all_employees()
+        if not employees:
+            return abort(500)
     else:
         employees = [EmployeeApiController.get_employee_by_uuid(uuid)]
+        if not employees[0]:
+            return abort(404)
     return render_template("employee.html", title="Employee", employees=employees)
 
 
@@ -162,3 +172,13 @@ def delete_department(uuid):
 @app.route("/about")
 def about():
     return render_template("about.html", title="About")
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', title="Page not found"), 404
+
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('500.html', title="Unexpected error"), 500
