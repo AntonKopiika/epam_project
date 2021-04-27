@@ -1,15 +1,14 @@
-import requests
-
 from src import app
 from flask import render_template, flash, redirect, url_for, request
 
 from src.forms.admin_edit_employee import AdminEditProfileForm
-from src.forms.edit_profile import EditProfileForm
+from src.forms.edit_employee import EditProfileForm
 from src.forms.login import LoginForm
 from src.forms.register import RegisterForm
+from src.forms.edit_department import EditDepartmentForm
 from flask_login import login_user, current_user, logout_user, login_required
 import src.service.database_queries as service
-from src.rest.api_controllers import EmployeeApiController, DepartmentApiController
+from src.rest.api_controllers import EmployeeApiController, DepartmentApiController, StatisticApiController
 from src.utils.password_utils import random_password
 from src.utils.email_utils import send_password
 
@@ -69,12 +68,15 @@ def register():
 
 @app.route("/department")
 @app.route("/department/<uuid>")
+@login_required
 def department(uuid=None):
+    statistics = {"employees": 0}
     if not uuid:
         departments = DepartmentApiController.get_all_departments()
     else:
         departments = [DepartmentApiController.get_department_by_uuid(uuid)]
-    return render_template("department.html", title="Department", departments=departments)
+        statistics = StatisticApiController.get_department_statistics(uuid)
+    return render_template("department.html", title="Department", departments=departments, statistics=statistics)
 
 
 @app.route("/employee")
@@ -106,8 +108,6 @@ def admin_edit_employee(uuid):
         form.position.data = employee["position"]
         form.salary.data = employee["salary"]
         form.is_admin.process_data(employee["is_admin"])
-
-
     return render_template("admin_edit_employee.html", title="Edit Profile", form=form, fullname=fullname)
 
 
@@ -127,6 +127,36 @@ def edit_employee():
         form.email.data = current_user.email
         form.birthday.data = current_user.birthday
     return render_template("edit_employee.html", title="Edit Profile", form=form)
+
+
+@app.route("/edit_department/<uuid>", methods=['GET', "POST"])
+@login_required
+def edit_department(uuid):
+    form = EditDepartmentForm(uuid)
+    department = DepartmentApiController.get_department_by_uuid(uuid)
+    if form.validate_on_submit():
+        DepartmentApiController.patch_department(name=form.name.data, uuid=uuid)
+        flash("Changes have been saved.")
+        return redirect(url_for("edit_department", uuid=uuid))
+    elif request.method == "GET":
+        form.name.data = department["name"]
+    return render_template("edit_department.html", title="Edit Department", form=form)
+
+
+@app.route("/delete_employee/<uuid>")
+@login_required
+def delete_employee(uuid):
+    if current_user.is_admin:
+        EmployeeApiController.delete_employee(uuid)
+    return redirect(url_for("employee"))
+
+
+@app.route("/delete_department/<uuid>")
+@login_required
+def delete_department(uuid):
+    if current_user.is_admin:
+        DepartmentApiController.delete_department(uuid)
+    return redirect(url_for("department"))
 
 
 @app.route("/about")

@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for department in departments %}
-        {% include "_department.html" %}
-    {% endfor %}
+    {% if departments|length > 1 %}
+        <h2>Departments List</h2>
+        {% for department in departments %}
+            {% include "_department.html" %}
+        {% endfor %}
+    {% else %}
+        <h2>Department Profile</h2>
+        {% for department in departments %}
+            {% include "_department.html" %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

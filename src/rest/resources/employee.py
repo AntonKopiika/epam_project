@@ -23,7 +23,6 @@ class EmployeeApi(Resource):
     def post(self):
         try:
             employee = self.employee_schema.load(request.json, session=db.session)
-
         except ValidationError as err:
             print(str(err))
             return {"message": str(err)}, 400

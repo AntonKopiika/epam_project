@@ -19,5 +19,5 @@ class Department(db.Model):
         self.uuid = str(uuid.uuid4())
 
     def __repr__(self):
-        return f"Department(id: {self.id}, name: {self.name})"
+        return f"Department(id: {self.id}, name: {self.name}, employees:{self.employees})"
 

@@ -3,6 +3,14 @@ import requests
 from src.schemas.employee import EmployeeSchema
 
 
+class StatisticApiController:
+    @staticmethod
+    def get_department_statistics(uuid):
+        request = requests.get(f"http://127.0.0.1:5000/api/department/statistics/{uuid}")
+        statistics = request.json()
+        return statistics
+
+
 class DepartmentApiController:
     @staticmethod
     def get_all_departments():
@@ -66,7 +74,6 @@ class EmployeeApiController:
                 'department': {'id': department.id, 'name': department.name, 'uuid': department.uuid},
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
-
         x = requests.put(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json)
 
     @staticmethod
@@ -78,7 +85,6 @@ class EmployeeApiController:
                                'uuid': department.uuid} if department is not None else None,
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
-
         x = requests.patch(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json)
 
     @staticmethod
