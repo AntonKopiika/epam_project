@@ -3,7 +3,6 @@ from email.message import EmailMessage
 from config import Config
 
 
-
 def send_password(receiver: str, password: str) -> None:
     msg = EmailMessage()
     msg["Subject"] = "[No reply] your employee password"

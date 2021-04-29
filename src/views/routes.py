@@ -1,8 +1,7 @@
 from functools import wraps
-
+from werkzeug.urls import url_parse
 from src import app
 from flask import render_template, flash, redirect, url_for, request
-
 from src.forms.employees.admin_edit_employee import AdminEditProfileForm
 from src.forms.employees.edit_employee import EditProfileForm
 from src.forms.login import LoginForm
@@ -45,7 +44,10 @@ def login():
             return redirect(url_for("login"))
         login_user(employee, remember=form.remember.data)
         flash(f"Login request for {form.email.data}")
-        return redirect(url_for("index"))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc !="":
+            next_page = url_for("index")
+        return redirect(next_page)
     return render_template("login.html", form=form, title="Sign in")
 
 

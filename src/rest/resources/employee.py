@@ -5,12 +5,14 @@ import src.service.database_queries as service
 from flask_restful import Resource
 
 from src import db
+from src.rest.resources.auth import check_authorisation
 from src.schemas.employee import EmployeeSchema
 
 
 class EmployeeApi(Resource):
     employee_schema = EmployeeSchema()
 
+    @check_authorisation
     def get(self, uuid=None):
         if uuid is None:
             employees = service.get_all_employees()
@@ -20,15 +22,16 @@ class EmployeeApi(Resource):
             return "", 404
         return self.employee_schema.dump(employee), 200
 
+    @check_authorisation
     def post(self):
         try:
             employee = self.employee_schema.load(request.json, session=db.session)
         except ValidationError as err:
-            print(str(err))
             return {"message": str(err)}, 400
         service.add_employee(employee)
         return {"message": "created successfully"}, 201
 
+    @check_authorisation
     def put(self, uuid):
         employee = service.get_employee_by_uuid(uuid)
         if not employee:
@@ -40,6 +43,7 @@ class EmployeeApi(Resource):
         service.update_employee(employee, uuid)
         return {"message": "updated successfully"}, 200
 
+    @check_authorisation
     def patch(self, uuid):
         employee = service.get_employee_by_uuid(uuid)
         if not employee:
@@ -50,6 +54,7 @@ class EmployeeApi(Resource):
         service.alter_employee(employee, update_json)
         return {"message": "updated successfully"}, 200
 
+    @check_authorisation
     def delete(self, uuid):
         employee = service.get_employee_by_uuid(uuid)
         if not employee:

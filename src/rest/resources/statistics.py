@@ -1,10 +1,11 @@
 from datetime import datetime
-
 from flask_restful import Resource
 import src.service.database_queries as service
+from src.rest.resources.auth import check_authorisation
 
 
 class Statistics(Resource):
+    @check_authorisation
     def get(self, uuid):
         department = service.get_department_by_uuid(uuid)
         if department:

@@ -6,7 +6,7 @@ from src.rest.api_controllers import DepartmentApiController
 
 class RegisterDepartmentForm(FlaskForm):
     name = StringField("Department name", validators=[DataRequired()])
-    submit = SubmitField("Edit Profile")
+    submit = SubmitField("Create Department")
 
     def validate_name(self, name):
         departments = DepartmentApiController.get_all_departments()

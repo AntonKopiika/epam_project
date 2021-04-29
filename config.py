@@ -9,3 +9,5 @@ class Config:
     SECRET_KEY = "Nothing"
     EMAIL_ADDRES = "antonkopiika24@gmail.com"
     EMAIL_PASSWORD = "testcompany"
+    API_AUTHORISATION_USERNAME = "testuser"
+    API_AUTHORISATION_PASSWORD = "12345678"
