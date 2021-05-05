@@ -42,24 +42,25 @@ class DepartmentApiController:
     @staticmethod
     def post_department(name):
         json = {"name": name}
-        x = requests.post("http://127.0.0.1:5000/api/department/", json=json,
+        return requests.post("http://127.0.0.1:5000/api/department/", json=json,
                           auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def put_department(uuid, name):
         json = {"name": name}
-        x = requests.put(f"http://127.0.0.1:5000/api/department/{uuid}", json=json,
+        return requests.put(f"http://127.0.0.1:5000/api/department/{uuid}", json=json,
                          auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def patch_department(uuid, name):
         json = {"name": name}
-        x = requests.patch(f"http://127.0.0.1:5000/api/department/{uuid}", json=json,
+        return requests.patch(f"http://127.0.0.1:5000/api/department/{uuid}", json=json,
                            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+
 
     @staticmethod
     def delete_department(uuid):
-        x = requests.delete(f"http://127.0.0.1:5000/api/department/{uuid}",
+        return requests.delete(f"http://127.0.0.1:5000/api/department/{uuid}",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
 
@@ -84,7 +85,7 @@ class EmployeeApiController:
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
 
-        x = requests.post("http://127.0.0.1:5000/api/employee/", json=json,
+        return requests.post("http://127.0.0.1:5000/api/employee/", json=json,
                           auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -93,7 +94,7 @@ class EmployeeApiController:
                 'department': {'id': department["id"], 'name': department["name"], 'uuid': department["uuid"]},
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
-        x = requests.put(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json,
+        return requests.put(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json,
                          auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -105,10 +106,10 @@ class EmployeeApiController:
                                'uuid': department["uuid"]} if department is not None else None,
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
-        x = requests.patch(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json,
+        return requests.patch(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json,
                            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def delete_employee(uuid):
-        x = requests.delete(f"http://127.0.0.1:5000/api/employee/{uuid}",
+        return requests.delete(f"http://127.0.0.1:5000/api/employee/{uuid}",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))

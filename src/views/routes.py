@@ -17,13 +17,13 @@ from src.utils.email_utils import send_password
 
 def admins_only(func):
     @wraps(func)
-    def admin_wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs):
         if current_user.is_authenticated and current_user.is_admin:
             return func(*args, **kwargs)
         flash(f"Access denied")
         return redirect(url_for("index"))
 
-    return admin_wrapper
+    return wrapper
 
 
 @app.route("/")
@@ -43,9 +43,9 @@ def login():
             flash("Invalid username or password")
             return redirect(url_for("login"))
         login_user(employee, remember=form.remember.data)
-        flash(f"Login request for {form.email.data}")
+        flash(f"You are successfully logged in")
         next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc !="":
+        if not next_page or url_parse(next_page).netloc != "":
             next_page = url_for("index")
         return redirect(next_page)
     return render_template("login.html", form=form, title="Sign in")
@@ -74,11 +74,14 @@ def register():
         password = random_password()
         email = form.email.data
         is_admin = form.is_admin.data
-        EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary, position=position,
+        response = EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary, position=position,
                                             is_admin=is_admin,
                                             email=email, password=password, department=department, birthday=birthday)
-        send_password(email, password)
-        flash(f"Register request for {form.firstname.data} {form.lastname.data} {form.department.data}")
+        if response.status_code == 201:
+            send_password(email, password)
+            flash(f"{form.firstname.data} {form.lastname.data} successfully registered")
+        else:
+            flash(f"Something went wrong while creating new employee")
         return redirect("index")
     return render_template("register_employee.html", form=form, title="Register Employee")
 
@@ -90,9 +93,12 @@ def register_department():
     form = RegisterDepartmentForm()
     if form.validate_on_submit():
         name = form.name.data
-        DepartmentApiController.post_department(name=name)
-        flash(f"Register request for {form.name.data}")
-        return redirect("index")
+        response = DepartmentApiController.post_department(name=name)
+        if response.status_code == 201:
+            flash(f"{form.name.data} successfully registered")
+        else:
+            flash(f"Something went wrong while creating department")
+        return redirect(url_for("department"))
     return render_template("register_department.html", form=form, title="Register Department")
 
 
@@ -142,9 +148,13 @@ def admin_edit_employee(uuid):
     fullname = employee["last_name"] + " " + employee["first_name"]
     if form.validate_on_submit():
         department = DepartmentApiController.get_department_by_uuid(form.department.data)
-        EmployeeApiController.patch_employee(department=department, position=form.position.data,
-                                             salary=form.salary.data, is_admin=form.is_admin.data, uuid=uuid)
-        flash("Changes have been saved.")
+        response = EmployeeApiController.patch_employee(department=department, position=form.position.data,
+                                                           salary=form.salary.data, is_admin=form.is_admin.data,
+                                                           uuid=uuid)
+        if response.status_code == 200:
+            flash("Changes have been saved")
+        else:
+            flash(f"Something went wrong while editing")
         return redirect(url_for("admin_edit_employee", uuid=uuid))
     elif request.method == "GET":
         form.department.process_data(employee["department"]["uuid"])
@@ -159,10 +169,13 @@ def admin_edit_employee(uuid):
 def edit_employee():
     form = EditProfileForm()
     if form.validate_on_submit():
-        EmployeeApiController.patch_employee(first_name=form.firstname.data, last_name=form.lastname.data,
-                                             birthday=form.birthday.data, email=form.email.data,
-                                             password=form.password.data, uuid=current_user.uuid)
-        flash("Changes have been saved.")
+        response = EmployeeApiController.patch_employee(first_name=form.firstname.data, last_name=form.lastname.data,
+                                                           birthday=form.birthday.data, email=form.email.data,
+                                                           password=form.password.data, uuid=current_user.uuid)
+        if response.status_code == 200:
+            flash("Changes have been saved")
+        else:
+            flash(f"Something went wrong while editing")
         return redirect(url_for("edit_employee"))
     elif request.method == "GET":
         form.firstname.data = current_user.first_name
@@ -179,8 +192,11 @@ def edit_department(uuid):
     form = EditDepartmentForm(uuid)
     department = DepartmentApiController.get_department_by_uuid(uuid)
     if form.validate_on_submit():
-        DepartmentApiController.patch_department(name=form.name.data, uuid=uuid)
-        flash("Changes have been saved.")
+        response = DepartmentApiController.patch_department(name=form.name.data, uuid=uuid)
+        if response.status_code == 200:
+            flash("Changes have been saved")
+        else:
+            flash(f"Something went wrong while editing")
         return redirect(url_for("edit_department", uuid=uuid))
     elif request.method == "GET":
         form.name.data = department["name"]
@@ -192,8 +208,11 @@ def edit_department(uuid):
 @login_required
 def delete_employee(uuid):
     if current_user.is_admin:
-        EmployeeApiController.delete_employee(uuid)
-        flash(f"Employee deleted successfully")
+        response = EmployeeApiController.delete_employee(uuid)
+        if response.status_code == 204:
+            flash(f"Employee deleted successfully")
+        else:
+            flash(f"Something went wrong while deleting")
     return redirect(url_for("employee"))
 
 
@@ -202,8 +221,11 @@ def delete_employee(uuid):
 @login_required
 def delete_department(uuid):
     if current_user.is_admin:
-        DepartmentApiController.delete_department(uuid)
-        flash(f"Department deleted successfully")
+        response = DepartmentApiController.delete_department(uuid)
+        if response.status_code == 204:
+            flash(f"Department deleted successfully")
+        else:
+            flash(f"Something went wrong while deleting")
     return redirect(url_for("department"))
 
 

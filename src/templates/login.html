@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Sign in</h1>
+    <div class="login_form"> <h1 class="title">Sign in</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -19,5 +19,6 @@
         </p>
         <p>{{ form.remember() }} {{ form.remember.label }}</p>
         <p>{{ form.submit() }}</p>
-    </form>
+    </form></div>
+
 {% endblock %}

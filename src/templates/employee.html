@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-    {% if employees|length > 1 %}
-    <h2>Employees List</h2>
-        {% for employee in employees %}
-            {% include "_employee.html" %}
-        {% endfor %}
-    {% else %}
-        <h2>Employee Profile</h2>
-        {% for employee in employees %}
-            {% include "_employee.html" %}
-        {% endfor %}
-    {% endif %}
+        {% if employees|length > 1 %}
+            <h2>Employees List</h2>
+            <div class="employees_list">
+            {% for employee in employees %}
+                {% include "_employee.html" %}
+            {% endfor %}
+            </div>
+        {% else %}
+            <h2>Employee Profile</h2>
+            <div class="employees_list">
+            {% for employee in employees %}
+                {% include "_employee.html" %}
+            {% endfor %}
+            </div>
+        {% endif %}
 {% endblock %}

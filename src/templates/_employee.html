@@ -1,18 +1,33 @@
-<table>
+<table class="person">
     <tr valign="top">
         <td>
-            <a href="{{ url_for('employee', uuid = employee.uuid) }}">{{ employee.first_name+" "+employee.last_name }}</a><br>
-            position: {{ employee.position }} <br>
-            salary: {{ employee.salary }} <br>
-            birthday: {{ employee.birthday }} <br>
-            email: {{ employee.email }} <br>
-            department: <a
-                href="{{ url_for('department', uuid = employee.department.uuid) }}">{{ employee.department.name }}</a><br>
-            {% if current_user.uuid != employee.uuid and current_user.is_admin==True %}
-                <a href="{{ url_for('admin_edit_employee', uuid=employee.uuid) }}">Edit employee profile</a>
-                <a href="{{ url_for('delete_employee', uuid=employee.uuid) }}">Delete employee profile</a>
-            {% endif %}
+            <ul>
+                <li>
+                    <a href="{{ url_for('employee', uuid = employee.uuid) }}" class="title">{{ employee.first_name+" "+employee.last_name }}</a>
+                </li>
+                <li>
+                    position: {{ employee.position }}
+                </li>
+                <li>
+                    salary: {{ employee.salary }}
+                </li>
+                <li>
+                    birthday: {{ employee.birthday }}
+                </li>
+                <li>
+                    email: {{ employee.email }}
+                </li>
+                <li>
+                    department: <a
+                        href="{{ url_for('department', uuid = employee.department.uuid) }}">{{ employee.department.name }}</a>
+                </li>
+                <li>
+                    {% if current_user.uuid != employee.uuid and current_user.is_admin==True %}
+                        <a href="{{ url_for('admin_edit_employee', uuid=employee.uuid) }}" class="edit_button">Edit</a>
+                        <a href="{{ url_for('delete_employee', uuid=employee.uuid) }}" class="edit_button">Delete</a>
+                    {% endif %}
+                </li>
+            </ul>
         </td>
     </tr>
 </table>
-<hr/>

@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Epam Project - {{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/style.css') }}">
 </head>
 <body>
-<div>
+<div class="menu">
     Company:
-    <a href="{{ url_for('index') }}">Home</a>
-    <a href="{{ url_for( 'department' ) }}">Departments</a>
-    <a href="{{ url_for("employee") }}">Employees</a>
+    <a href="{{ url_for('index') }}" class="menu_link">Home</a>
+    <a href="{{ url_for( 'department' ) }}" class="menu_link">Departments</a>
+    <a href="{{ url_for("employee") }}" class="menu_link">Employees</a>
     {% if current_user.is_admin %}
-        <a href="{{ url_for("register") }}">New Employee</a>
-        <a href="{{ url_for("register_department") }}">New Department</a>
+        <a href="{{ url_for("register") }}" class="menu_link">New Employee</a>
+        <a href="{{ url_for("register_department") }}" class="menu_link">New Department</a>
     {% endif %}
     {% if not current_user.is_authenticated %}
-        <a href="{{ url_for("login") }}">Login</a>
+        <a href="{{ url_for("login") }}" class="menu_link">Login</a>
     {% else %}
-        <a href="{{ url_for('edit_employee') }}">Edit my profile</a>
-        <a href="{{ url_for("logout") }}">Logout</a>
+        <a href="{{ url_for('edit_employee') }}" class="menu_link">Edit my profile</a>
+        <a href="{{ url_for("logout") }}" class="menu_link">Logout</a>
     {% endif %}
 
 </div>
 {% if current_user.is_authenticated %}
     <h2>Hi, {{ current_user.first_name }}</h2>
 {% endif %}
-<hr>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
+        {% for message in messages %}
+            <h4>{{ message }}</h4>
+        {% endfor %}
     {% endif %}
 {% endwith %}
 {% block content %}{% endblock %}

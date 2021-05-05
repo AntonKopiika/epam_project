@@ -1,0 +1,116 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #E6FB71;
+}
+
+body h1 {
+    margin: 20px;
+}
+
+body h2 {
+    margin: 20px;
+}
+
+body h4 {
+    margin: 20px;
+}
+
+body h3 {
+    margin-top: 0px;
+
+}
+
+.form_view {
+    margin: 20px;
+}
+
+.login_form {
+    text-align: center;
+}
+
+.employees_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.person {
+    width: 400px;
+    background-color: #DFFB3F;
+    border-radius: 10px;
+    margin: 10px;
+
+}
+
+.person li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.department li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.department {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #DFFB3F;
+    border-radius: 10px;
+}
+
+.menu {
+    display: block;
+    padding: 20px;
+    background-color: #89A100;
+    border-radius: 0 0 15px 15px;
+    font-weight: 600;
+}
+
+.menu_link {
+    text-decoration: none;
+    color: black;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.menu_link:hover {
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.title {
+    font-weight: 1000;
+    font-size: 24px;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.edit_button {
+    background-color: #A5B92E;
+    margin-top: 5px;
+    border-radius: 20px;
+    text-decoration: none;
+    padding: 10px;
+    color: black;
+    display: inline-block;
+}
+
+.edit_button:hover {
+    color: white;
+}
+
+.title:hover {
+    color: white;
+}
