@@ -2,6 +2,8 @@ from functools import wraps
 from werkzeug.urls import url_parse
 from src import app
 from flask import render_template, flash, redirect, url_for, request
+
+from src.forms.employee_search import EmployeeSearchForm
 from src.forms.employees.admin_edit_employee import AdminEditProfileForm
 from src.forms.employees.edit_employee import EditProfileForm
 from src.forms.login import LoginForm
@@ -10,7 +12,8 @@ from src.forms.employees.register_employee import RegisterForm
 from src.forms.departments.edit_department import EditDepartmentForm
 from flask_login import login_user, current_user, logout_user, login_required
 import src.service.database_queries as service
-from src.rest.api_controllers import EmployeeApiController, DepartmentApiController, StatisticApiController
+from src.rest.api_controllers import EmployeeApiController, DepartmentApiController, StatisticApiController, \
+    SearchEmployeeApiController
 from src.utils.password_utils import random_password
 from src.utils.email_utils import send_password
 
@@ -74,9 +77,11 @@ def register():
         password = random_password()
         email = form.email.data
         is_admin = form.is_admin.data
-        response = EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary, position=position,
-                                            is_admin=is_admin,
-                                            email=email, password=password, department=department, birthday=birthday)
+        response = EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary,
+                                                       position=position,
+                                                       is_admin=is_admin,
+                                                       email=email, password=password, department=department,
+                                                       birthday=birthday)
         if response.status_code == 201:
             send_password(email, password)
             flash(f"{form.firstname.data} {form.lastname.data} successfully registered")
@@ -121,18 +126,26 @@ def department(uuid=None):
     return render_template("department.html", title="Department", departments=departments, statistics=statistics)
 
 
-@app.route("/employee")
+@app.route("/employee", methods=['GET', "POST"])
 @app.route("/employee/<uuid>")
 @login_required
 def employee(uuid=None):
+    form = EmployeeSearchForm()
+    form.department.choices = [("all", "all")] + [(dep["id"], dep["name"]) for dep in
+                                                  DepartmentApiController.get_all_departments()]
     if not uuid:
         employees = EmployeeApiController.get_all_employees()
-        # if not employees:
-        #     return abort(500)
+        if form.validate_on_submit():
+            name = form.name.data
+            department_id = form.department.data if form.department.data != "all" else 0
+            start_date = form.from_birthday.data
+            end_date = form.to_birthday.data
+            employees = SearchEmployeeApiController.search_employees(name, department_id, start_date, end_date)
+            print(employees)
+            flash(f"{form.name.data} {form.from_birthday.data} {form.to_birthday.data} {form.department.data}")
+        return render_template("employee.html", title="Employee", employees=employees, form=form)
     else:
         employees = [EmployeeApiController.get_employee_by_uuid(uuid)]
-        # if not employees[0]:
-        #     return abort(404)
     return render_template("employee.html", title="Employee", employees=employees)
 
 
@@ -149,8 +162,8 @@ def admin_edit_employee(uuid):
     if form.validate_on_submit():
         department = DepartmentApiController.get_department_by_uuid(form.department.data)
         response = EmployeeApiController.patch_employee(department=department, position=form.position.data,
-                                                           salary=form.salary.data, is_admin=form.is_admin.data,
-                                                           uuid=uuid)
+                                                        salary=form.salary.data, is_admin=form.is_admin.data,
+                                                        uuid=uuid)
         if response.status_code == 200:
             flash("Changes have been saved")
         else:
@@ -170,8 +183,8 @@ def edit_employee():
     form = EditProfileForm()
     if form.validate_on_submit():
         response = EmployeeApiController.patch_employee(first_name=form.firstname.data, last_name=form.lastname.data,
-                                                           birthday=form.birthday.data, email=form.email.data,
-                                                           password=form.password.data, uuid=current_user.uuid)
+                                                        birthday=form.birthday.data, email=form.email.data,
+                                                        password=form.password.data, uuid=current_user.uuid)
         if response.status_code == 200:
             flash("Changes have been saved")
         else:

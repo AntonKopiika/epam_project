@@ -1,7 +1,6 @@
 import requests
 from flask_restful import abort
 from requests.auth import HTTPBasicAuth
-
 from config import Config
 
 
@@ -43,25 +42,24 @@ class DepartmentApiController:
     def post_department(name):
         json = {"name": name}
         return requests.post("http://127.0.0.1:5000/api/department/", json=json,
-                          auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def put_department(uuid, name):
         json = {"name": name}
         return requests.put(f"http://127.0.0.1:5000/api/department/{uuid}", json=json,
-                         auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+                            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def patch_department(uuid, name):
         json = {"name": name}
         return requests.patch(f"http://127.0.0.1:5000/api/department/{uuid}", json=json,
-                           auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
-
+                              auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def delete_department(uuid):
         return requests.delete(f"http://127.0.0.1:5000/api/department/{uuid}",
-                            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+                               auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
 
 class EmployeeApiController:
@@ -86,7 +84,7 @@ class EmployeeApiController:
                 'email': email}
 
         return requests.post("http://127.0.0.1:5000/api/employee/", json=json,
-                          auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def put_employee(uuid, first_name, last_name, birthday, position, salary, is_admin, email, password, department):
@@ -95,7 +93,7 @@ class EmployeeApiController:
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
         return requests.put(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json,
-                         auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+                            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def patch_employee(uuid, first_name=None, last_name=None, birthday=None, position=None, salary=None, is_admin=None,
@@ -107,9 +105,17 @@ class EmployeeApiController:
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
         return requests.patch(f"http://127.0.0.1:5000/api/employee/{uuid}", json=json,
-                           auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+                              auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
     def delete_employee(uuid):
         return requests.delete(f"http://127.0.0.1:5000/api/employee/{uuid}",
-                            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+                               auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
+
+
+class SearchEmployeeApiController:
+    @staticmethod
+    def search_employees(name, department_id, start, end):
+        return requests.get(
+            f"http://127.0.0.1:5000/api/search/name={name}&department={department_id}&start_date={start}&end_date={end}",
+            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD)).json()
