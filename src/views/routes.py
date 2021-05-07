@@ -3,7 +3,7 @@ from werkzeug.urls import url_parse
 from src import app
 from flask import render_template, flash, redirect, url_for, request
 
-from src.forms.employee_search import EmployeeSearchForm
+from src.forms.employees.employee_search import EmployeeSearchForm
 from src.forms.employees.admin_edit_employee import AdminEditProfileForm
 from src.forms.employees.edit_employee import EditProfileForm
 from src.forms.login import LoginForm
@@ -141,12 +141,9 @@ def employee(uuid=None):
             start_date = form.from_birthday.data
             end_date = form.to_birthday.data
             employees = SearchEmployeeApiController.search_employees(name, department_id, start_date, end_date)
-            print(employees)
-            flash(f"{form.name.data} {form.from_birthday.data} {form.to_birthday.data} {form.department.data}")
-        return render_template("employee.html", title="Employee", employees=employees, form=form)
-    else:
-        employees = [EmployeeApiController.get_employee_by_uuid(uuid)]
-    return render_template("employee.html", title="Employee", employees=employees)
+        return render_template("employees.html", title="Employee", employees=employees, form=form)
+    employee = EmployeeApiController.get_employee_by_uuid(uuid)
+    return render_template("employee.html", title="Employee", employee=employee)
 
 
 @app.route("/edit_employee/<uuid>", methods=['GET', "POST"])

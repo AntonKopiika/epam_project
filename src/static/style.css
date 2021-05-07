@@ -41,7 +41,12 @@ body h3 {
     background-color: #DFFB3F;
     border-radius: 10px;
     margin: 10px;
+}
 
+.profile {
+    background-color: #DFFB3F;
+    border-radius: 10px;
+    margin: 10px;
 }
 
 .person li {
