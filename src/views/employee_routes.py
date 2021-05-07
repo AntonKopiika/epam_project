@@ -1,64 +1,14 @@
-from functools import wraps
-from werkzeug.urls import url_parse
 from src import app
 from flask import render_template, flash, redirect, url_for, request
-
 from src.forms.employees.employee_search import EmployeeSearchForm
 from src.forms.employees.admin_edit_employee import AdminEditProfileForm
 from src.forms.employees.edit_employee import EditProfileForm
-from src.forms.login import LoginForm
-from src.forms.departments.register_department import RegisterDepartmentForm
 from src.forms.employees.register_employee import RegisterForm
-from src.forms.departments.edit_department import EditDepartmentForm
-from flask_login import login_user, current_user, logout_user, login_required
-import src.service.database_queries as service
-from src.rest.api_controllers import EmployeeApiController, DepartmentApiController, StatisticApiController, \
-    SearchEmployeeApiController
+from flask_login import current_user, login_required
+from src.rest.api_controllers import EmployeeApiController, DepartmentApiController, SearchEmployeeApiController
 from src.utils.password_utils import random_password
 from src.utils.email_utils import send_password
-
-
-def admins_only(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        if current_user.is_authenticated and current_user.is_admin:
-            return func(*args, **kwargs)
-        flash(f"Access denied")
-        return redirect(url_for("index"))
-
-    return wrapper
-
-
-@app.route("/")
-@app.route("/index")
-def index():
-    return render_template("index.html", title="Home")
-
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for("index"))
-    form = LoginForm()
-    if form.validate_on_submit():
-        employee = service.get_employee_by_email(form.email.data)
-        if employee is None or not employee.check_password(form.password.data):
-            flash("Invalid username or password")
-            return redirect(url_for("login"))
-        login_user(employee, remember=form.remember.data)
-        flash(f"You are successfully logged in")
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != "":
-            next_page = url_for("index")
-        return redirect(next_page)
-    return render_template("login.html", form=form, title="Sign in")
-
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("index"))
+from src.views.base_routes import admins_only
 
 
 @app.route("/register_employee", methods=["GET", "POST"])
@@ -91,41 +41,6 @@ def register():
     return render_template("register_employee.html", form=form, title="Register Employee")
 
 
-@app.route("/register_department", methods=["GET", "POST"])
-@admins_only
-@login_required
-def register_department():
-    form = RegisterDepartmentForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        response = DepartmentApiController.post_department(name=name)
-        if response.status_code == 201:
-            flash(f"{form.name.data} successfully registered")
-        else:
-            flash(f"Something went wrong while creating department")
-        return redirect(url_for("department"))
-    return render_template("register_department.html", form=form, title="Register Department")
-
-
-@app.route("/department")
-@app.route("/department/<uuid>")
-@login_required
-def department(uuid=None):
-    statistics = {"employees": 0}
-    if not uuid:
-        departments = DepartmentApiController.get_all_departments()
-        # if not departments:
-        #     return abort(500)
-    else:
-        departments = [DepartmentApiController.get_department_by_uuid(uuid)]
-        # if not departments[0]:
-        #     return abort(404)
-        statistics = StatisticApiController.get_department_statistics(uuid)
-        # if not statistics:
-        #     return abort(500)
-    return render_template("department.html", title="Department", departments=departments, statistics=statistics)
-
-
 @app.route("/employee", methods=['GET', "POST"])
 @app.route("/employee/<uuid>")
 @login_required
@@ -152,8 +67,6 @@ def employee(uuid=None):
 def admin_edit_employee(uuid):
     form = AdminEditProfileForm()
     employee = EmployeeApiController.get_employee_by_uuid(uuid)
-    # if not employee:
-    #     return abort(404)
     form.department.choices = [(dep["uuid"], dep["name"]) for dep in DepartmentApiController.get_all_departments()]
     fullname = employee["last_name"] + " " + employee["first_name"]
     if form.validate_on_submit():
@@ -195,24 +108,6 @@ def edit_employee():
     return render_template("edit_employee.html", title="Edit Profile", form=form)
 
 
-@app.route("/edit_department/<uuid>", methods=['GET', "POST"])
-@admins_only
-@login_required
-def edit_department(uuid):
-    form = EditDepartmentForm(uuid)
-    department = DepartmentApiController.get_department_by_uuid(uuid)
-    if form.validate_on_submit():
-        response = DepartmentApiController.patch_department(name=form.name.data, uuid=uuid)
-        if response.status_code == 200:
-            flash("Changes have been saved")
-        else:
-            flash(f"Something went wrong while editing")
-        return redirect(url_for("edit_department", uuid=uuid))
-    elif request.method == "GET":
-        form.name.data = department["name"]
-    return render_template("edit_department.html", title="Edit Department", form=form)
-
-
 @app.route("/delete_employee/<uuid>")
 @admins_only
 @login_required
@@ -224,31 +119,3 @@ def delete_employee(uuid):
         else:
             flash(f"Something went wrong while deleting")
     return redirect(url_for("employee"))
-
-
-@app.route("/delete_department/<uuid>")
-@admins_only
-@login_required
-def delete_department(uuid):
-    if current_user.is_admin:
-        response = DepartmentApiController.delete_department(uuid)
-        if response.status_code == 204:
-            flash(f"Department deleted successfully")
-        else:
-            flash(f"Something went wrong while deleting")
-    return redirect(url_for("department"))
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html", title="About")
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html', title="Page not found"), 404
-
-
-@app.errorhandler(500)
-def page_not_found(e):
-    return render_template('500.html', title="Unexpected error"), 500

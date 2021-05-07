@@ -1,45 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-    <form action="" class="form_view" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(size=19) }}
-            {% for error in form.name.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.from_birthday.label }}<br>
-            {{ form.from_birthday(size=19) }}
-            {% for error in form.from_birthday.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.to_birthday.label }}<br>
-            {{ form.to_birthday(size=19) }}
-            {% for error in form.to_birthday.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.department.label }}<br>
-            {{ form.department() }}
-            {% for error in form.department.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    {% if employees|length > 0 %}
-        <h2>Employees List</h2>
-        <div class="employees_list">
-            {% for employee in employees %}
-                {% include "_employee.html" %}
-            {% endfor %}
+    <div style="width: 100%; overflow: hidden;">
+        <div style="width: 250px; float: left;">
+            {% if employees|length > 0 %}
+                <h2>Employees List</h2>
+            {% else %}
+                <h2>No matches with employees</h2>
+            {% endif %}
         </div>
-    {% else %}
-        <h2>No matches with employees</h2>
-    {% endif %}
+        <div style="margin-left: 250px;">
+            <form action="" class="form_view" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.name.label }}
+                {{ form.name(size=6) }}
+                {% for error in form.name.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+
+                {{ form.from_birthday.label }}
+                {{ form.from_birthday(size=6) }}
+                {% for error in form.from_birthday.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+
+                {{ form.to_birthday.label }}
+                {{ form.to_birthday(size=6) }}
+                {% for error in form.to_birthday.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+
+                {{ form.department.label }}
+                {{ form.department() }}
+                {% for error in form.department.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+
+                {{ form.submit() }}
+            </form>
+        </div>
+    </div>
+
+    <div class="employees_list">
+        {% for employee in employees %}
+            {% include "_employee.html" %}
+        {% endfor %}
+    </div>
 {% endblock %}
