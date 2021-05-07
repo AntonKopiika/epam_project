@@ -11,6 +11,9 @@ class SearchEmployeeApi(Resource):
     @check_authorisation
     def get(self, search_query):
         params = parse_qs(search_query)
+        if "email" in params.keys():
+            employee = service.get_employee_by_email(params["email"][0])
+            return self.employee_schema.dump(employee), 200
         department_id = int(params["department"][0]) if params.get("department") else False
         name = params["name"][0] if params.get("name") else False
         start_date = params["start_date"][0] if params.get("start_date") else False

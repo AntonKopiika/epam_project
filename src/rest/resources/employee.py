@@ -1,9 +1,7 @@
 from flask import request
 from marshmallow import ValidationError
-
 import src.service.database_queries as service
 from flask_restful import Resource
-
 from src import db
 from src.rest.resources.auth import check_authorisation
 from src.schemas.employee import EmployeeSchema

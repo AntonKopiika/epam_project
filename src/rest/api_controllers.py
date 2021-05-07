@@ -119,3 +119,9 @@ class SearchEmployeeApiController:
         return requests.get(
             f"http://127.0.0.1:5000/api/search/name={name}&department={department_id}&start_date={start}&end_date={end}",
             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD)).json()
+
+    @staticmethod
+    def search_employee_by_email(email):
+        return requests.get(f"http://127.0.0.1:5000/api/search/email={email}",
+                            auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME,
+                                               Config.API_AUTHORISATION_PASSWORD)).json()
