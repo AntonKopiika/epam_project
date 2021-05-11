@@ -27,6 +27,7 @@ class TestDepartment:
 
 def test_get_departments_without_authorisation():
     response = client.get("/api/department")
+
     assert response.status_code == http.HTTPStatus.UNAUTHORIZED
 
 
@@ -40,6 +41,7 @@ def test_get_departments_mock_db():
     with patch("src.service.database_queries.get_all_departments", autospec=True,
                return_value=[]) as mock_get_departments:
         response = client.get("/api/department/", headers=header)
+
         mock_get_departments.assert_called_once()
         assert response.status_code == http.HTTPStatus.OK
         assert len(response.json) == 0
