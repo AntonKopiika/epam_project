@@ -14,10 +14,6 @@ def get_all_departments() -> List[Department]:
     return db.session.query(Department).options(selectinload(Department.employees)).all()
 
 
-def get_department_by_id(id: str) -> Department:
-    return db.session.query(Department).filter_by(id=int(id)).first()
-
-
 def get_department_by_uuid(uuid: str) -> Department:
     return db.session.query(Department).filter_by(uuid=uuid).first()
 
@@ -61,10 +57,6 @@ def search_employees(name, department_id, start_date, end_date):
         base_query = base_query.filter(and_(Employee.birthday >= start_date, Employee.birthday <= end_date))
     employees = base_query.all()
     return employees
-
-
-def get_employee_by_id(id: str) -> Employee:
-    return db.session.query(Employee).filter_by(uuid=int(id)).first()
 
 
 def get_employee_by_uuid(uuid: str) -> Employee:

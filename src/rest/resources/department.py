@@ -27,7 +27,7 @@ class DepartmentApi(Resource):
         except ValidationError as err:
             return {"message": str(err)}, 400
         service.add_department(department)
-        return {"message": "created successfully"}, 201
+        return self.department_schema.dump(department), 201
 
     @check_authorisation
     def put(self, uuid):
@@ -39,7 +39,7 @@ class DepartmentApi(Resource):
         except ValidationError as err:
             return {"message": str(err)}, 400
         service.update_department(department, uuid)
-        return {"message": "updated successfully"}, 200
+        return self.department_schema.dump(department), 200
 
     @check_authorisation
     def patch(self, uuid):
@@ -48,9 +48,9 @@ class DepartmentApi(Resource):
             return "", 404
         update_json = request.json
         if not update_json:
-            return {"message": "nothing to update"}, 404
+            return {"message": "nothing to update"}, 400
         service.alter_department(department, update_json)
-        return {"message": "updated successfully"}, 200
+        return self.department_schema.dump(department), 200
 
     @check_authorisation
     def delete(self, uuid):

@@ -27,7 +27,7 @@ class EmployeeApi(Resource):
         except ValidationError as err:
             return {"message": str(err)}, 400
         service.add_employee(employee)
-        return {"message": "created successfully"}, 201
+        return self.employee_schema.dump(employee), 201
 
     @check_authorisation
     def put(self, uuid):
@@ -37,9 +37,9 @@ class EmployeeApi(Resource):
         try:
             employee = self.employee_schema.load(request.json, session=db.session)
         except ValidationError as err:
-            return {"message": err}, 400
+            return {"message": str(err)}, 400
         service.update_employee(employee, uuid)
-        return {"message": "updated successfully"}, 200
+        return self.employee_schema.dump(employee), 200
 
     @check_authorisation
     def patch(self, uuid):
@@ -48,9 +48,9 @@ class EmployeeApi(Resource):
             return "", 404
         update_json = request.json
         if not update_json:
-            return {"message": "nothing to update"}, 404
+            return {"message": "nothing to update"}, 400
         service.alter_employee(employee, update_json)
-        return {"message": "updated successfully"}, 200
+        return self.employee_schema.dump(employee), 200
 
     @check_authorisation
     def delete(self, uuid):
