@@ -4,4 +4,4 @@ python:
 
 script:
   - pytest
-  - coverage run --source="src/" -m pytest
+  - coverage run --source="/" -m pytest
