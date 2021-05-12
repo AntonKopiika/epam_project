@@ -15,4 +15,4 @@ notifications:
     on_failure: always
 
 after_success:
-  -codecov
+  - codecov
