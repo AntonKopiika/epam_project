@@ -6,7 +6,8 @@ install:
   - pip install pytest-cov
   - pip install coveralls
 script:
-  - python3 -m pytest --cov=src/
+  - python3 -m pytest --cov=src --cov-report=html
+  - htmlcov/index.html
 
 notifications:
   email:
@@ -16,4 +17,4 @@ notifications:
     on_failure: always
 
 after_success:
-  run: coveralls --service=github
+  coveralls --service=github
