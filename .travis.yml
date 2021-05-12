@@ -9,7 +9,7 @@ install:
 script:
   - export COVERALLS_REPO_TOKEN=6sXtjjXNlPbBLGL6q3b9LxJisiVe6x68m
   - python3 -m pytest --cov=src
-  - python3 -m pylint --cov=src
+  - python3 -m pytest --pylint
 notifications:
   email:
     reciplients:
