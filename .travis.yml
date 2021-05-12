@@ -1,7 +1,13 @@
 language: python
 python:
-  - "3.8.5"
+  - 3.8.5
 
 script:
   - pytest
-  - coverage run --source="/" -m pytest
+
+notifications:
+  email:
+    reciplients:
+      - toxxa099@gmail.com
+    on_success: never
+    on_failure: always
