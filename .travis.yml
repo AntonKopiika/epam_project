@@ -16,7 +16,7 @@ notifications:
     on_failure: always
 
 after_success:
-  - name: Send coverage to Coveralls
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    run: coveralls --service=github
+  name: Coveralls
+  env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  run: coveralls --service=github
