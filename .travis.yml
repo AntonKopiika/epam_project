@@ -16,5 +16,5 @@ notifications:
     on_failure: always
 
 after_success:
-  -htmlcov
-  -coveralls
+  htmlcov
+  coveralls
