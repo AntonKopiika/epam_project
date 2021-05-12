@@ -5,9 +5,14 @@ install:
   - pip install -r requirements.txt
 script:
   - python3 -m pytest
+  - coverage run --source=src -m pytest && coverage html
+
 notifications:
   email:
     reciplients:
       - toxxa099@gmail.com
     on_success: never
     on_failure: always
+
+after_success:
+  -codecov
