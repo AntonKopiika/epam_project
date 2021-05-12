@@ -16,4 +16,5 @@ notifications:
     on_failure: always
 
 after_success:
-  coveralls --service=github
+  -htmlcov
+  -coveralls
