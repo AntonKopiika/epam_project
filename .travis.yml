@@ -7,7 +7,6 @@ install:
   - pip install coveralls
 script:
   - python3 -m pytest --cov=src
-  - coverage html
 notifications:
   email:
     reciplients:
