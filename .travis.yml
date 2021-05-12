@@ -6,7 +6,7 @@ install:
   - pip install pytest-cov
   - pip install coveralls
 script:
-  - pytest --cov=src/
+  - python3 -m pytest --cov=src/
 
 notifications:
   email:
