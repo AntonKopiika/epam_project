@@ -15,5 +15,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 from src.rest import routes
-from src.views import base_routes, department_routes, employee_routes, autorisation_routes, error_routes
+from src.views import base_routes, department_routes, employee_routes,\
+    autorisation_routes, error_routes
 from src.models import department, employee
