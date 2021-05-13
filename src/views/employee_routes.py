@@ -28,10 +28,8 @@ def register():
         email = form.email.data
         is_admin = form.is_admin.data
         response = EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary,
-                                                       position=position,
-                                                       is_admin=is_admin,
-                                                       email=email, password=password, department=department,
-                                                       birthday=birthday)
+                                                       position=position, is_admin=is_admin, email=email,
+                                                       password=password, department=department, birthday=birthday)
         if response.status_code == 201:
             send_password(email, password)
             flash(f"{form.firstname.data} {form.lastname.data} successfully registered")
