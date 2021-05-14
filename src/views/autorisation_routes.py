@@ -1,3 +1,6 @@
+"""
+This module implements rendering login and logout routes
+"""
 from werkzeug.urls import url_parse
 from src import app, db
 from flask import render_template, flash, redirect, url_for, request
@@ -9,6 +12,10 @@ from src.rest.api_controllers import SearchEmployeeApiController
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    method render login page on web app
+    :return: login page for authorisation in app
+    """
     if current_user.is_authenticated:
         return redirect(url_for("index"))
     form = LoginForm()
@@ -34,5 +41,9 @@ def login():
 @app.route("/logout")
 @login_required
 def logout():
+    """
+    method logout user from web app
+    :return: home page view
+    """
     logout_user()
     return redirect(url_for("index"))

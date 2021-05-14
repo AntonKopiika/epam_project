@@ -1,12 +1,23 @@
+"""
+This module implements response for statistic requests
+"""
 from datetime import datetime
 from flask_restful import Resource
 import src.service.database_queries as service
-from src.rest.resources.auth import check_authorisation
+from src.rest.resources.wrappers import check_authorisation
 
 
 class Statistics(Resource):
+    """
+    Class for statistic restfull resource
+    """
     @check_authorisation
     def get(self, uuid):
+        """
+        get method for statistics request
+        :param uuid: department uuid
+        :return: statistics of department in json, if such department exists
+        """
         department = service.get_department_by_uuid(uuid)
         if department:
             employees = department.employees

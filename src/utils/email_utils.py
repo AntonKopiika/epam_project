@@ -1,9 +1,17 @@
+"""
+This module implements sending emails using smtp server
+"""
 import smtplib
 from email.message import EmailMessage
 from config import Config
 
 
 def send_password(receiver: str, password: str) -> None:
+    """
+    method for sending password to new employee
+    :param receiver: email address of new employee
+    :param password: password, created for this employee
+    """
     msg = EmailMessage()
     msg["Subject"] = "[No reply] your employee password"
     msg["From"] = Config.EMAIL_ADDRES

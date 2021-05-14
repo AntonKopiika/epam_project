@@ -1,3 +1,6 @@
+"""
+This method implements rendering web pages related to departments
+"""
 from src import app
 from flask import render_template, flash, redirect, url_for, request
 from src.forms.departments.register_department import RegisterDepartmentForm
@@ -11,6 +14,10 @@ from src.views.base_routes import admins_only
 @admins_only
 @login_required
 def register_department():
+    """
+    method for rendering register department page
+    :return: register department page view
+    """
     form = RegisterDepartmentForm()
     if form.validate_on_submit():
         name = form.name.data
@@ -27,6 +34,10 @@ def register_department():
 @app.route("/department/<uuid>")
 @login_required
 def department(uuid=None):
+    """
+    method for rendering departments list page
+    :return: departments list page view
+    """
     if not uuid:
         departments = DepartmentApiController.get_all_departments()
         statistics = {"employees": 0}
@@ -40,6 +51,10 @@ def department(uuid=None):
 @admins_only
 @login_required
 def edit_department(uuid):
+    """
+    method for rendering edit department page
+    :return: edit department page view
+    """
     form = EditDepartmentForm(uuid)
     department = DepartmentApiController.get_department_by_uuid(uuid)
     if form.validate_on_submit():
@@ -58,6 +73,10 @@ def edit_department(uuid):
 @admins_only
 @login_required
 def delete_department(uuid):
+    """
+    method for deleting department
+    :return: departments list page after successful deleting
+    """
     if current_user.is_admin:
         response = DepartmentApiController.delete_department(uuid)
         if response.status_code == 204:

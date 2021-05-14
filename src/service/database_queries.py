@@ -1,6 +1,8 @@
+"""
+This module implements calls to database
+"""
 from datetime import datetime
 from typing import List
-
 from sqlalchemy import or_, and_
 from sqlalchemy.orm import selectinload
 from werkzeug.security import generate_password_hash
@@ -11,19 +13,37 @@ from src.schemas.department import DepartmentSchema
 
 
 def get_all_departments() -> List[Department]:
+    """
+    method for getting all departments from db
+    :return: list of departments
+    """
     return db.session.query(Department).options(selectinload(Department.employees)).all()
 
 
 def get_department_by_uuid(uuid: str) -> Department:
+    """
+    method for getting department from db
+    :param uuid: department uuid
+    :return: department instance
+    """
     return db.session.query(Department).filter_by(uuid=uuid).first()
 
 
 def add_department(department: Department):
+    """
+    method to add department to db
+    :param department: department object, you want to add
+    """
     db.session.add(department)
     db.session.commit()
 
 
 def update_department(department: Department, uuid: str) -> None:
+    """
+    method to update department data
+    :param department: changed department object
+    :param uuid: department uuid
+    """
     db.session.query(Department).filter_by(uuid=uuid).update(
         dict(name=department.name)
     )
@@ -31,6 +51,11 @@ def update_department(department: Department, uuid: str) -> None:
 
 
 def alter_department(department: Department, updated_json: dict) -> None:
+    """
+    method to alter department data
+    :param department: department object
+    :param updated_json: json with data, you want to change
+    """
     name = updated_json.get("name")
     if name:
         department.name = name
@@ -39,15 +64,31 @@ def alter_department(department: Department, updated_json: dict) -> None:
 
 
 def delete_department(department: Department) -> None:
+    """
+    method to delete department data from db
+    :param department: department object
+    """
     db.session.delete(department)
     db.session.commit()
 
 
 def get_all_employees() -> List[Employee]:
+    """
+    method for getting all employees from db
+    :return: list of employees
+    """
     return db.session.query(Employee).options(selectinload(Employee.department)).all()
 
 
-def search_employees(name, department_id, start_date, end_date):
+def search_employees(name, department_id, start_date, end_date) -> List[Employee]:
+    """
+    method for searching employees by parameters
+    :param name: name of employee
+    :param department_id: employee department id
+    :param start_date: start date of birthday diapason
+    :param end_date: end date of birthday diapason
+    :return: list of employees, matching parameters
+    """
     base_query = db.session.query(Employee)
     if name:
         base_query = base_query.filter(or_(Employee.first_name.like(f"%{name}%"), Employee.last_name.like(f"%{name}%")))
@@ -60,19 +101,38 @@ def search_employees(name, department_id, start_date, end_date):
 
 
 def get_employee_by_uuid(uuid: str) -> Employee:
+    """
+    method for getting employee from db
+    :param uuid: employee uuid
+    :return: employee object
+    """
     return db.session.query(Employee).filter_by(uuid=uuid).first()
 
 
 def get_employee_by_email(email: str) -> Employee:
+    """
+    method for getting employee from db
+    :param email: employee email
+    :return: employee object
+    """
     return db.session.query(Employee).filter_by(email=email).first()
 
 
 def add_employee(employee: Employee):
+    """
+    method to add employee to db
+    :param employee: employee object, you want to add
+    """
     db.session.add(employee)
     db.session.commit()
 
 
 def update_employee(employee: Employee, uuid: str) -> None:
+    """
+    method to update employee data
+    :param employee: changed employee object
+    :param uuid: employee uuid
+    """
     db.session.query(Employee).filter_by(uuid=uuid).update(
         dict(first_name=employee.first_name, last_name=employee.last_name, birthday=employee.birthday,
              position=employee.position, salary=employee.salary, is_admin=employee.is_admin, email=employee.email,
@@ -82,6 +142,11 @@ def update_employee(employee: Employee, uuid: str) -> None:
 
 
 def alter_employee(employee: Employee, updated_json: dict) -> None:
+    """
+    method to alter employee data
+    :param employee: employee object
+    :param updated_json: json with data, you want to change
+    """
     first_name = updated_json.get("first_name")
     last_name = updated_json.get("last_name")
     birthday = updated_json.get("birthday")
@@ -115,5 +180,9 @@ def alter_employee(employee: Employee, updated_json: dict) -> None:
 
 
 def delete_employee(employee: Employee) -> None:
+    """
+    method to delete employee data from db
+    :param employee: employee object
+    """
     db.session.delete(employee)
     db.session.commit()

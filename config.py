@@ -1,3 +1,6 @@
+"""
+This module contains all configuration data for web application
+"""
 import pathlib
 
 BASE_DIR = pathlib.Path(__file__).parent

@@ -1,11 +1,16 @@
+"""
+This module stands for populating database
+"""
 from datetime import date
-
 from src.models.department import Department
 from src.models.employee import Employee
 from src import db
 
 
 def populate():
+    """
+    populating method for adding employees and departments to db
+    """
     department_1 = Department("general management")
     department_2 = Department("marketing department")
     department_3 = Department("finance department")

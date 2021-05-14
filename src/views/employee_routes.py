@@ -1,3 +1,6 @@
+"""
+This method implements rendering web pages related to employees
+"""
 from src import app
 from flask import render_template, flash, redirect, url_for, request
 from src.forms.employees.employee_search import EmployeeSearchForm
@@ -15,6 +18,10 @@ from src.views.base_routes import admins_only
 @admins_only
 @login_required
 def register():
+    """
+    method for rendering register employee page
+    :return: register employee page view
+    """
     form = RegisterForm()
     form.department.choices = [(dep["uuid"], dep["name"]) for dep in DepartmentApiController.get_all_departments()]
     if form.validate_on_submit():
@@ -43,6 +50,10 @@ def register():
 @app.route("/employee/<uuid>")
 @login_required
 def employee(uuid=None):
+    """
+    method for rendering employees list page
+    :return: employees list page view
+    """
     form = EmployeeSearchForm()
     form.department.choices = [("all", "all")] + [(dep["id"], dep["name"]) for dep in
                                                   DepartmentApiController.get_all_departments()]
@@ -63,6 +74,10 @@ def employee(uuid=None):
 @admins_only
 @login_required
 def admin_edit_employee(uuid):
+    """
+    method for rendering edit employee by admin page
+    :return: edit employee by admin page view
+    """
     form = AdminEditProfileForm()
     employee = EmployeeApiController.get_employee_by_uuid(uuid)
     form.department.choices = [(dep["uuid"], dep["name"]) for dep in DepartmentApiController.get_all_departments()]
@@ -88,6 +103,10 @@ def admin_edit_employee(uuid):
 @app.route("/edit_employee", methods=['GET', "POST"])
 @login_required
 def edit_employee():
+    """
+    method for rendering edit employee page
+    :return: edit employee page view
+    """
     form = EditProfileForm()
     if form.validate_on_submit():
         response = EmployeeApiController.patch_employee(first_name=form.firstname.data, last_name=form.lastname.data,
@@ -110,6 +129,10 @@ def edit_employee():
 @admins_only
 @login_required
 def delete_employee(uuid):
+    """
+    method for deleting employee
+    :return: employees list page after successful deleting
+    """
     if current_user.is_admin:
         response = EmployeeApiController.delete_employee(uuid)
         if response.status_code == 204:

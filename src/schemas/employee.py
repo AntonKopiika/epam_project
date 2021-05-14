@@ -1,6 +1,8 @@
+"""
+This module implements employee serialising functionality
+"""
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
-
 from src.models.employee import Employee
 
 

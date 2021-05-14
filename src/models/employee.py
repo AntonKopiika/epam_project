@@ -1,3 +1,6 @@
+"""
+This module implements instance of employee in database
+"""
 import uuid
 from flask_login import UserMixin
 from src import db, login_manager
@@ -5,6 +8,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Employee(db.Model, UserMixin):
+    """
+    Employee object stands for representation data in employees table.
+    :param first_name: first name of employee
+    :param last_name: last name of employee
+    :param position: position of employee
+    :param salary: salary of employee
+    :param birthday: birthday of employee in date type
+    :param email: email of employee
+    :param password: password for employee account
+    :param is_admin: bool parameter for admins only, False by default
+    :param department: Department object, in which department employee works, None by default
+    """
     __tablename__ = "employees"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -33,13 +48,31 @@ class Employee(db.Model, UserMixin):
         self.uuid = str(uuid.uuid4())
 
     def check_password(self, password):
+        """
+        method checks equality of given password with employee's
+
+        :param password: password to compare with employee's password
+
+        :return True if given password hash is equal to password hash of employee
+        """
         return check_password_hash(self.password, password)
 
     def __repr__(self):
+        """
+        method gives string representation of employee
+
+        :return: string with employee id, firstname, lastname and position
+        """
         return f"Employee(id: {self.id}, fname: {self.first_name}, lname: {self.last_name}, position: {self.position})"
 
 
 @login_manager.user_loader
 def load_user(employee_id):
-    return Employee.query.get(employee_id)
+    """
+    method gives employee object for current registered employee
 
+    :param employee_id: id of employee in db
+
+    :return: employee object
+    """
+    return Employee.query.get(employee_id)

@@ -1,3 +1,6 @@
+"""
+This module stores routes for api resources
+"""
 from src import api
 from src.rest.resources.department import DepartmentApi
 from src.rest.resources.employee import EmployeeApi
