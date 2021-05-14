@@ -2,7 +2,7 @@
 This module implements controllers for api requests
 """
 import requests
-from resources.wrappers import handle_errors
+from src.rest.resources.wrappers import handle_errors
 from requests.auth import HTTPBasicAuth
 from config import Config
 
