@@ -31,3 +31,5 @@ marshmallow.exceptions.ValidationError: {'position': ['Missing data for required
 [2021-05-18 16:44:54,744] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
 [2021-05-18 16:44:54,755] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
 [2021-05-18 16:44:55,036] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:54:41,476] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:54:41,478] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
