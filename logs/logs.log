@@ -1,67 +1,19 @@
-[2021-05-18 11:39:22,123] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 11:39:22,131] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 11:39:22,117] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 11:39:22,156] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 11:40:53,644] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 11:40:53,727] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 11:40:53,876] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 11:40:53,874] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 12:54:46,722] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 12:54:46,727] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 12:54:46,728] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 12:54:46,727] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:14:48,181] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:15:07,010] ERROR: Exception on /api/search/email=anton@mail.ru [GET] in /home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py:1891
-Traceback (most recent call last):
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/_collections.py", line 1008, in __call__
-    return self.registry[key]
-KeyError: <greenlet.greenlet object at 0x7f6714f8dca0 (otid=0x7f67160efe00) current active started main>
-
-During handling of the above exception, another exception occurred:
-
+[2021-05-18 16:19:05,341] ERROR: Exception on /favicon.ico [GET] in /home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py:1891
 Traceback (most recent call last):
   File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_restful/__init__.py", line 468, in wrapper
-    resp = resource(*args, **kwargs)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/views.py", line 89, in view
-    return self.dispatch_request(*args, **kwargs)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_restful/__init__.py", line 583, in dispatch_request
-    resp = meth(*args, **kwargs)
-  File "/home/anton/PycharmProjects/epam_project/src/rest/resources/wrappers.py", line 41, in wrapper
-    return func(*args, **kwargs)
-  File "/home/anton/PycharmProjects/epam_project/src/rest/resources/search_employee.py", line 26, in get
-    employee = service.get_employee_by_email(params["email"][0])
-  File "/home/anton/PycharmProjects/epam_project/src/service/database_queries.py", line 118, in get_employee_by_email
-    return db.session.query(Employee).filter_by(email=email).first()
-  File "<string>", line 2, in query
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/scoping.py", line 105, in _proxied
-    return self.registry()
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/_collections.py", line 1010, in __call__
-    return self.registry.setdefault(key, self.createfunc())
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 4058, in __call__
-    return self.class_(**local_kw)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py", line 176, in __init__
-    bind = options.pop('bind', None) or db.engine
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py", line 998, in engine
-    return self.get_engine()
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py", line 1017, in get_engine
-    return connector.get_engine()
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py", line 594, in get_engine
-    self._engine = rv = self._sa.create_engine(sa_url, options)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py", line 1027, in create_engine
-    return sqlalchemy.create_engine(sa_url, **engine_opts)
-  File "<string>", line 2, in create_engine
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/deprecations.py", line 298, in warned
-    return fn(*args, **kwargs)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/engine/create.py", line 548, in create_engine
-    dbapi = dialect_cls.dbapi(**dbapi_args)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/dialects/mysql/mysqldb.py", line 118, in dbapi
-    return __import__("MySQLdb")
-ModuleNotFoundError: No module named 'MySQLdb'
-[2021-05-18 13:15:07,084] ERROR: Exception on /login [POST] in /home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py:1891
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1926, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1908, in raise_routing_exception
+    raise request.routing_exception
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/ctx.py", line 350, in match_request
+    result = self.url_adapter.match(return_rule=True)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 1945, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
   File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -69,39 +21,95 @@ Traceback (most recent call last):
     rv = self.handle_user_exception(e)
   File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_restful/__init__.py", line 272, in error_router
     return original_handler(e)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/anton/PycharmProjects/epam_project/src/views/autorisation_routes.py", line 27, in login
-    employee = employee_schema.load(employee_json, session=db.session)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/marshmallow_sqlalchemy/schema/load_instance_mixin.py", line 92, in load
-    return super().load(data, **kwargs)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/marshmallow/schema.py", line 725, in load
-    return self._do_load(
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/marshmallow/schema.py", line 907, in _do_load
-    raise exc
-marshmallow.exceptions.ValidationError: {'last_name': ['Missing data for required field.'], 'position': ['Missing data for required field.'], 'email': ['Missing data for required field.'], 'first_name': ['Missing data for required field.'], 'message': ['Unknown field.']}
-[2021-05-18 13:22:32,228] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:30:00,325] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:30:23,057] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:32:40,711] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:32:40,814] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:32:40,834] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 13:32:40,843] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:10:38,634] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:10:38,905] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:10:38,947] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:10:39,010] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:11:10,172] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:11:10,367] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:11:10,463] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:11:10,508] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:28:32,857] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:28:32,921] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:28:33,002] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 15:28:33,022] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1816, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1744, in handle_http_exception
+    return handler(e)
+  File "/home/anton/PycharmProjects/epam_project/src/views/error_routes.py", line 14, in page_not_found
+    return render_template('404.html', title="Page not found")
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/templating.py", line 136, in render_template
+    ctx.app.update_template_context(context)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 838, in update_template_context
+    context.update(func())
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_login/utils.py", line 379, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_login/utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask_login/login_manager.py", line 318, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/anton/PycharmProjects/epam_project/src/models/employee.py", line 78, in load_user
+    return Employee.query.get(employee_id)
+  File "<string>", line 2, in get
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/deprecations.py", line 390, in warned
+    return fn(*args, **kwargs)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 933, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py", line 937, in _get_impl
+    return self.session._get_impl(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 2796, in _get_impl
+    return db_load_fn(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/loading.py", line 531, in load_on_pk_identity
+    session.execute(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1669, in execute
+    conn = self._connection_for_bind(bind, close_with_result=True)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1519, in _connection_for_bind
+    return self._transaction._connection_for_bind(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 747, in _connection_for_bind
+    conn = bind.connect()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 3095, in connect
+    return self._connection_cls(self, close_with_result=close_with_result)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 91, in __init__
+    else engine.raw_connection()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 3174, in raw_connection
+    return self._wrap_pool_connect(self.pool.connect, _connection)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 3141, in _wrap_pool_connect
+    return fn()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/base.py", line 301, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/base.py", line 755, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/base.py", line 419, in checkout
+    rec = pool._do_get()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/impl.py", line 145, in _do_get
+    self._dec_overflow()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/impl.py", line 142, in _do_get
+    return self._create_connection()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/base.py", line 247, in _create_connection
+    return _ConnectionRecord(self)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/base.py", line 362, in __init__
+    self.__connect(first_connect_check=True)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/base.py", line 605, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/pool/base.py", line 599, in __connect
+    connection = pool._invoke_creator(self)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/engine/create.py", line 578, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 583, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/pymysql/connections.py", line 353, in __init__
+    self.connect()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/pymysql/connections.py", line 633, in connect
+    self._request_authentication()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/pymysql/connections.py", line 932, in _request_authentication
+    auth_packet = _auth.caching_sha2_password_auth(self, auth_packet)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/pymysql/_auth.py", line 265, in caching_sha2_password_auth
+    data = sha2_rsa_encrypt(conn.password, conn.salt, conn.server_public_key)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/pymysql/_auth.py", line 143, in sha2_rsa_encrypt
+    raise RuntimeError(
+RuntimeError: 'cryptography' package is required for sha256_password or caching_sha2_password auth methods
+[2021-05-18 16:21:38,212] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:21:38,782] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:21:38,943] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:21:39,147] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:25:47,883] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:25:47,887] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:25:47,880] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 16:25:47,895] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
