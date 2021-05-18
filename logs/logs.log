@@ -101,3 +101,7 @@ marshmallow.exceptions.ValidationError: {'last_name': ['Missing data for require
 [2021-05-18 15:11:10,367] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
 [2021-05-18 15:11:10,463] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
 [2021-05-18 15:11:10,508] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 15:28:32,857] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 15:28:32,921] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 15:28:33,002] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-18 15:28:33,022] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
