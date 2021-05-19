@@ -7,10 +7,7 @@ BASE_DIR = pathlib.Path(__file__).parent
 
 
 class Config:
-    """
-    'sqlite:///' + str(BASE_DIR / "data" / "db.sqlite3")
-    """
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://testuser:Password_1234@192.168.0.101:3306/department_project'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + str(BASE_DIR / "data" / "db.sqlite3")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = "Nothing"
     EMAIL_ADDRES = "antonkopiika24@gmail.com"

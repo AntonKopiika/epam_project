@@ -87,3 +87,5 @@ requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=5
 [2021-05-19 09:16:37,295] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
 [2021-05-19 09:16:47,318] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
 [2021-05-19 09:16:47,390] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:45:16,570] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:45:16,601] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
