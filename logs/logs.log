@@ -1,4 +1,56 @@
-[2021-05-18 16:38:34,377] ERROR: Exception on /login [POST] in /home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py:1891
+[2021-05-13 11:29:45,782] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:25
+[2021-05-14 14:39:43,318] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-14 14:40:03,996] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:05:19,963] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:05:19,966] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:09:33,915] ERROR: Exception on /login [POST] in /home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py:1891
+Traceback (most recent call last):
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/connection.py", line 169, in _new_conn
+    conn = connection.create_connection(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/util/connection.py", line 96, in create_connection
+    raise err
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/util/connection.py", line 86, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/connectionpool.py", line 699, in urlopen
+    httplib_response = self._make_request(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/connectionpool.py", line 394, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/connection.py", line 234, in request
+    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
+  File "/usr/lib/python3.8/http/client.py", line 1255, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1301, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1250, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1010, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 950, in send
+    self.connect()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/connection.py", line 200, in connect
+    conn = self._new_conn()
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/connection.py", line 181, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fca4cab5b80>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/connectionpool.py", line 755, in urlopen
+    retries = retries.increment(
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/urllib3/util/retry.py", line 574, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /api/search/email=anton@mail.ru (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fca4cab5b80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
   File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -14,22 +66,24 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/anton/PycharmProjects/epam_project/src/views/autorisation_routes.py", line 27, in login
-    employee = employee_schema.load(employee_json, session=db.session)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/marshmallow_sqlalchemy/schema/load_instance_mixin.py", line 92, in load
-    return super().load(data, **kwargs)
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/marshmallow/schema.py", line 725, in load
-    return self._do_load(
-  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/marshmallow/schema.py", line 907, in _do_load
-    raise exc
-marshmallow.exceptions.ValidationError: {'position': ['Missing data for required field.'], 'email': ['Missing data for required field.'], 'first_name': ['Missing data for required field.'], 'last_name': ['Missing data for required field.'], 'message': ['Unknown field.']}
-[2021-05-18 16:39:01,695] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:39:01,882] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:39:02,078] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:39:02,150] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:44:54,358] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:44:54,744] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:44:54,755] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:44:55,036] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:54:41,476] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
-[2021-05-18 16:54:41,478] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+  File "/home/anton/PycharmProjects/epam_project/src/views/autorisation_routes.py", line 24, in login
+    employee_json = SearchEmployeeApiController.search_employee_by_email(form.email.data)
+  File "/home/anton/PycharmProjects/epam_project/src/rest/api_controllers.py", line 230, in search_employee_by_email
+    return requests.get(f"http://127.0.0.1:5000/api/search/email={email}",
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/requests/api.py", line 76, in get
+    return request('get', url, params=params, **kwargs)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/requests/sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/requests/sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/anton/PycharmProjects/epam_project/venv/lib/python3.8/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /api/search/email=anton@mail.ru (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fca4cab5b80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2021-05-19 09:14:02,748] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:14:02,748] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:15:57,798] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:16:37,295] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:16:47,318] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27
+[2021-05-19 09:16:47,390] INFO: App startup in /home/anton/PycharmProjects/epam_project/src/__init__.py:27

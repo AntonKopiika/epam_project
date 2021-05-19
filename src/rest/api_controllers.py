@@ -11,6 +11,7 @@ class StatisticApiController:
     """
     Controller class for StatisticApi
     """
+
     @staticmethod
     @handle_errors(correct_response=200, error_code=500)
     def get_department_statistics(uuid):
@@ -27,6 +28,7 @@ class DepartmentApiController:
     """
     Controller class for DepartmentApi
     """
+
     @staticmethod
     @handle_errors(correct_response=200, error_code=500)
     def get_all_departments():
@@ -98,6 +100,7 @@ class EmployeeApiController:
     """
     Controller class for EmployeeApi
     """
+
     @staticmethod
     @handle_errors(correct_response=200, error_code=500)
     def get_all_employees():
@@ -206,6 +209,7 @@ class SearchEmployeeApiController:
     """
     Controller class for SearchEmployeeApi
     """
+
     @staticmethod
     def search_employees(name, department_id, start, end):
         """
