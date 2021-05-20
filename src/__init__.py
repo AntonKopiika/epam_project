@@ -43,4 +43,4 @@ from src.service.population import populate
 @app.before_first_request
 def setup():
     db.create_all()
-    populate()
+
