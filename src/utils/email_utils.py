@@ -4,6 +4,8 @@ This module implements sending emails using smtp server
 import smtplib
 from email.message import EmailMessage
 from config import Config
+from src import mail
+from flask_mail import Message
 
 
 def send_password(receiver: str, password: str) -> None:
@@ -24,3 +26,10 @@ def send_password(receiver: str, password: str) -> None:
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(Config.EMAIL_ADDRES, Config.EMAIL_PASSWORD)
         smtp.send_message(msg)
+
+
+def send_something(receiver, password):
+    msg = Message("subject", recipients=[receiver])
+    msg.body = f"Congratulations, you are registered as an employee with password: {password}. You can change your " \
+               f"password after first login to system."
+    mail.send(msg)
