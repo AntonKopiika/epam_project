@@ -20,7 +20,7 @@ class StatisticApiController:
         :param uuid: department uuid
         :return: request json with department statistics
         """
-        return requests.get(f"http://127.0.0.1:8000/api/department/statistics/{uuid}",
+        return requests.get(f"https://flasktestproject2.herokuapp.com/api/department/statistics/{uuid}",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
 
@@ -36,7 +36,7 @@ class DepartmentApiController:
         method to get all departments from DepartmentApi
         :return: request json with departments data
         """
-        return requests.get("http://127.0.0.1:8000/api/department/",
+        return requests.get("https://flasktestproject2.herokuapp.com/api/department/",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -47,7 +47,7 @@ class DepartmentApiController:
         :param uuid: department uuid
         :return: request json with department data
         """
-        return requests.get(f"http://127.0.0.1:8000/api/department/{uuid}",
+        return requests.get(f"https://flasktestproject2.herokuapp.com/api/department/{uuid}",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -58,7 +58,7 @@ class DepartmentApiController:
         :return: request response
         """
         json = {"name": name}
-        return requests.post("http://127.0.0.1:8000/api/department/", json=json,
+        return requests.post("https://flasktestproject2.herokuapp.com/api/department/", json=json,
                              auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -70,7 +70,7 @@ class DepartmentApiController:
         :return: request response
         """
         json = {"name": name}
-        return requests.put(f"http://127.0.0.1:8000/api/department/{uuid}", json=json,
+        return requests.put(f"https://flasktestproject2.herokuapp.com/api/department/{uuid}", json=json,
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -82,7 +82,7 @@ class DepartmentApiController:
         :return: request response
         """
         json = {"name": name}
-        return requests.patch(f"http://127.0.0.1:8000/api/department/{uuid}", json=json,
+        return requests.patch(f"https://flasktestproject2.herokuapp.com/api/department/{uuid}", json=json,
                               auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -92,7 +92,7 @@ class DepartmentApiController:
         :param uuid: department uuid
         :return: request response
         """
-        return requests.delete(f"http://127.0.0.1:8000/api/department/{uuid}",
+        return requests.delete(f"https://flasktestproject2.herokuapp.com/api/department/{uuid}",
                                auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
 
@@ -108,7 +108,7 @@ class EmployeeApiController:
         method to get all employees from EmployeeApi
         :return: request json with employees data
         """
-        return requests.get("http://127.0.0.1:8000/api/employee/",
+        return requests.get("https://flasktestproject2.herokuapp.com/api/employee/",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -119,7 +119,7 @@ class EmployeeApiController:
         :param uuid: employee uuid
         :return: request json with employee data
         """
-        return requests.get(f"http://127.0.0.1:8000/api/employee/{uuid}",
+        return requests.get(f"https://flasktestproject2.herokuapp.com/api/employee/{uuid}",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -142,7 +142,7 @@ class EmployeeApiController:
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
 
-        return requests.post("http://127.0.0.1:8000/api/employee/", json=json,
+        return requests.post("https://flasktestproject2.herokuapp.com/api/employee/", json=json,
                              auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -165,7 +165,7 @@ class EmployeeApiController:
                 'department': {'id': department["id"], 'name': department["name"], 'uuid': department["uuid"]},
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
-        return requests.put(f"http://127.0.0.1:8000/api/employee/{uuid}", json=json,
+        return requests.put(f"https://flasktestproject2.herokuapp.com/api/employee/{uuid}", json=json,
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -191,7 +191,7 @@ class EmployeeApiController:
                                'uuid': department["uuid"]} if department is not None else None,
                 'password': password, 'last_name': last_name, 'salary': salary, 'first_name': first_name,
                 'email': email}
-        return requests.patch(f"http://127.0.0.1:8000/api/employee/{uuid}", json=json,
+        return requests.patch(f"https://flasktestproject2.herokuapp.com/api/employee/{uuid}", json=json,
                               auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
     @staticmethod
@@ -201,7 +201,7 @@ class EmployeeApiController:
         :param uuid: employee uuid
         :return: request response
         """
-        return requests.delete(f"http://127.0.0.1:8000/api/employee/{uuid}",
+        return requests.delete(f"https://flasktestproject2.herokuapp.com/api/employee/{uuid}",
                                auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD))
 
 
@@ -221,7 +221,7 @@ class SearchEmployeeApiController:
         :return: request json with employees
         """
         return requests.get(
-            f"http://127.0.0.1:8000/api/search/name={name}&department={department_id}&start_date={start}&end_date={end}",
+            f"https://flasktestproject2.herokuapp.com/api/search/name={name}&department={department_id}&start_date={start}&end_date={end}",
             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME, Config.API_AUTHORISATION_PASSWORD)).json()
 
     @staticmethod
@@ -231,6 +231,6 @@ class SearchEmployeeApiController:
         :param email: employee's email
         :return: request json with employees
         """
-        return requests.get(f"http://127.0.0.1:8000/api/search/email={email}",
+        return requests.get(f"https://flasktestproject2.herokuapp.com/api/search/email={email}",
                             auth=HTTPBasicAuth(Config.API_AUTHORISATION_USERNAME,
                                                Config.API_AUTHORISATION_PASSWORD)).json()
