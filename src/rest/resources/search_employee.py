@@ -28,6 +28,6 @@ class SearchEmployeeApi(Resource):
         department_id = int(params["department"][0]) if params.get("department") else False
         name = params["name"][0] if params.get("name") else False
         start_date = params["start_date"][0] if params.get("start_date") else False
-        end_date = params["end_date"][0] if params.get("end_date") else date.today()
+        end_date = params["end_date"][0] if params.get("end_date") else date.today().strftime("%Y-%m-%d")
         employees = service.search_employees(name, department_id, start_date, end_date)
         return self.employee_schema.dump(employees, many=True), 200
