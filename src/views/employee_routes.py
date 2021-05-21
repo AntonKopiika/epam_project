@@ -35,7 +35,7 @@ def register():
         email = form.email.data
         is_admin = form.is_admin.data
         email_response = send_password(email, password)
-        if email_response == 200:
+        if email_response.status_code == 200:
             response = EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary,
                                                        position=position, is_admin=is_admin, email=email,
                                                        password=password, department=department, birthday=birthday)
