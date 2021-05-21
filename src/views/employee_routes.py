@@ -10,7 +10,7 @@ from src.forms.employees.register_employee import RegisterForm
 from flask_login import current_user, login_required
 from src.rest.api_controllers import EmployeeApiController, DepartmentApiController, SearchEmployeeApiController
 from src.utils.password_utils import random_password
-from src.utils.email_utils import send_password, send_something
+from src.utils.email_utils import send_password
 from src.views.base_routes import admins_only
 
 
@@ -34,14 +34,17 @@ def register():
         password = random_password()
         email = form.email.data
         is_admin = form.is_admin.data
-        response = EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary,
+        email_response = send_password(email, password)
+        if email_response == 200:
+            response = EmployeeApiController.post_employee(first_name=firstname, last_name=lastname, salary=salary,
                                                        position=position, is_admin=is_admin, email=email,
                                                        password=password, department=department, birthday=birthday)
-        if response.status_code == 201:
-            send_something(email, password)
-            flash(f"{form.firstname.data} {form.lastname.data} successfully registered")
+            if response.status_code == 201:
+                flash(f"{form.firstname.data} {form.lastname.data} successfully registered")
+            else:
+                flash(f"Something went wrong while creating new employee")
         else:
-            flash(f"Something went wrong while creating new employee")
+            flash(f"Something went wrong while sending password to new employee")
         return redirect("index")
     return render_template("register_employee.html", form=form, title="Register Employee")
 

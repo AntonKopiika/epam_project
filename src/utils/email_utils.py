@@ -1,35 +1,16 @@
 """
-This module implements sending emails using smtp server
+This module implements sending emails using mailgun service
 """
-import smtplib
-from email.message import EmailMessage
-from config import Config
-from src import mail
-from flask_mail import Message
+import requests
+import os
 
 
-def send_password(receiver: str, password: str) -> None:
-    """
-    method for sending password to new employee
-    :param receiver: email address of new employee
-    :param password: password, created for this employee
-    """
-    msg = EmailMessage()
-    msg["Subject"] = "[No reply] your employee password"
-    msg["From"] = Config.EMAIL_ADDRES
-    msg["To"] = receiver
-    msg.set_content(
-        f"Congratulations, you are registered as an employee with password: {password}. You can change your "
-        f"password after first login to system."
-    )
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(Config.EMAIL_ADDRES, Config.EMAIL_PASSWORD)
-        smtp.send_message(msg)
-
-
-def send_something(receiver, password):
-    msg = Message("subject", recipients=[receiver])
-    msg.body = f"Congratulations, you are registered as an employee with password: {password}. You can change your " \
-               f"password after first login to system."
-    mail.send(msg)
+def send_password(receiver: str, password: str):
+    return requests.post(
+        f"https://api.mailgun.net/v3/{os.environ['MAILGUN_DOMAIN']}/messages",
+        auth=("api", os.environ["MAILGUN_API_KEY"]),
+        data={"from": f"Departments admin <departments@{os.environ['MAILGUN_DOMAIN']}>",
+              "to": [receiver],
+              "subject": "[No reply] your employee password",
+              "text": f"Congratulations, you are registered as an employee with password: {password}. You can change "
+                      f"your password after first login to system."})

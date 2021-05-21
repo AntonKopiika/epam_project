@@ -10,7 +10,6 @@ from flask_login import LoginManager
 from config import Config
 from logging.handlers import RotatingFileHandler
 import os
-from flask_mail import Mail
 
 app = Flask(__name__, template_folder="templates")
 app.config.from_object(Config)
@@ -33,15 +32,6 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
-
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'antonkopiika24@gmail.com'  # введите свой адрес электронной почты здесь
-app.config['MAIL_DEFAULT_SENDER'] = 'antonkopiika24@gmail.com'  # и здесь
-app.config['MAIL_PASSWORD'] = 'testcompany'  # введите пароль
-mail = Mail(app)
 
 from src.rest import routes
 from src.views import base_routes, department_routes, employee_routes, \
