@@ -1,6 +1,8 @@
 """
 This method implements rendering web pages related to employees
 """
+from datetime import date
+
 from src import app
 from flask import render_template, flash, redirect, url_for, request
 from src.forms.employees.employee_search import EmployeeSearchForm
@@ -65,8 +67,8 @@ def employee(uuid=None):
         if form.validate_on_submit():
             name = form.name.data
             department_id = form.department.data if form.department.data != "all" else 0
-            start_date = form.from_birthday.data if form.from_birthday.data else 0
-            end_date = form.to_birthday.data if form.to_birthday.data else 0
+            start_date = form.from_birthday.data if form.from_birthday.data else date.min.strftime("%Y-%m-%d")
+            end_date = form.to_birthday.data if form.to_birthday.data else date.today().strftime("%Y-%m-%d")
             employees = SearchEmployeeApiController.search_employees(name, department_id, start_date, end_date)
         return render_template("employees.html", title="Employee", employees=employees, form=form)
     employee = EmployeeApiController.get_employee_by_uuid(uuid)
