@@ -23,7 +23,7 @@ class Statistics(Resource):
             employees = department.employees
             if employees:
                 salary_list = [employee.salary for employee in employees]
-                avg_salary = sum(salary_list) / len(employees)
+                avg_salary = round(sum(salary_list) / len(employees),2)
                 max_salary = max(salary_list)
                 min_salary = min(salary_list)
                 birthday_list = [employee.birthday for employee in employees]
