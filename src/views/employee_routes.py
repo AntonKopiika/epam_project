@@ -65,8 +65,8 @@ def employee(uuid=None):
         if form.validate_on_submit():
             name = form.name.data
             department_id = form.department.data if form.department.data != "all" else 0
-            start_date = form.from_birthday.data
-            end_date = form.to_birthday.data
+            start_date = form.from_birthday.data if form.from_birthday.data else 0
+            end_date = form.to_birthday.data if form.to_birthday.data else 0
             employees = SearchEmployeeApiController.search_employees(name, department_id, start_date, end_date)
         return render_template("employees.html", title="Employee", employees=employees, form=form)
     employee = EmployeeApiController.get_employee_by_uuid(uuid)
