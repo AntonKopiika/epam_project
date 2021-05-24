@@ -31,12 +31,3 @@ def index():
     :return: home page view
     """
     return render_template("index.html", title="Home")
-
-
-@app.route("/about")
-def about():
-    """
-    method for rendering about page
-    :return: about page view
-    """
-    return render_template("about.html", title="About")
