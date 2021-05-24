@@ -3,7 +3,7 @@ This module implements calls to database
 """
 from datetime import datetime
 from typing import List
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, func
 from sqlalchemy.orm import selectinload
 from werkzeug.security import generate_password_hash
 from src.models.department import Department
@@ -91,7 +91,7 @@ def search_employees(name, department_id, start_date, end_date) -> List[Employee
     """
     base_query = db.session.query(Employee)
     if name:
-        base_query = base_query.filter(or_(Employee.first_name.like(f"%{name}%"), Employee.last_name.like(f"%{name}%")))
+        base_query = base_query.filter(func.concat(Employee.first_name, Employee.last_name).like(f"%{name}%"))
     if department_id:
         base_query = base_query.filter(Employee.department_id == department_id)
     if start_date != "None":
